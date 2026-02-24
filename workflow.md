@@ -1,5 +1,62 @@
 # Project Workflow Guide
 
+## Mentor Review Readiness
+
+Team lead must update the project card with:
+
+- Demo URL
+- GitHub repository URL
+
+---
+
+## Corrected Pre-requisites
+
+- Python 3.10+
+- Node.js 18+ (npm 9+)
+- Git
+- API keys for Groq, YouTube, Spoonacular, and Google Calendar
+
+---
+
+## Corrected Activity 1.1 - Create and activate virtual environment
+
+```bash
+cd backend
+python -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+---
+
+## Corrected Activity 1.2 - Setup project folder structure
+
+- `backend/` for FastAPI APIs, services, and DB scripts
+- `frontend/` for React UI code
+
+Expected core folders:
+
+```text
+backend/app
+backend/scripts
+frontend/src
+```
+
+---
+
+## Corrected Activity 1.3 - Configure backend and frontend .env files
+
+1. Copy examples:
+   - `backend/.env.example -> backend/.env`
+   - `frontend/.env.example -> frontend/.env`
+2. Fill local values with your own credentials.
+3. Never commit real secrets.
+
+Backend required keys are in `backend/.env.example`.
+Frontend required keys are in `frontend/.env.example`.
+
+---
+
 ## Branch Naming
 
 feature/<initials>/<short-description>
@@ -13,12 +70,12 @@ Examples:
 
 ## Branch Strategy
 
-main → production ready  
-develop → integration branch  
-feature branches → individual work
+main -> production ready  
+develop -> integration branch  
+feature branches -> individual work
 
 Flow:
-feature → develop → main
+feature -> develop -> main
 
 ---
 
@@ -27,14 +84,14 @@ feature → develop → main
 Every PR must include:
 
 - Description of changes
-- Related Issue number
+- Related issue number
 - Steps to run locally
 - Testing steps
 - Screenshots (if UI change)
 - Update README or .env.example if needed
 
 PR Size:
-- Prefer small PRs (1–2 files)
+- Prefer small PRs (1-2 files)
 
 ---
 
@@ -74,8 +131,7 @@ At least 1 approval required.
 
 Frontend communicates only via REST APIs.
 
-Authentication:
-Authorization Header:
+Authentication header:
 
 Bearer <JWT_TOKEN>
 
