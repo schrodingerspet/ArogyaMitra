@@ -1,5 +1,6 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import SQLAlchemyError
 
 from ..database import get_db
 from ..models import WorkoutPlan, User
@@ -22,9 +23,13 @@ def create_workout(
         owner_id=current_user.id
     )
 
-    db.add(new_workout)
-    db.commit()
-    db.refresh(new_workout)
+    try:
+        db.add(new_workout)
+        db.commit()
+        db.refresh(new_workout)
+    except SQLAlchemyError:
+        db.rollback()
+        raise HTTPException(status_code=500, detail="Failed to create workout")
 
     return new_workout
 
@@ -47,7 +52,12 @@ def get_workout(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    return db.query(WorkoutPlan).filter(
+    workout = db.query(WorkoutPlan).filter(
         WorkoutPlan.id == workout_id,
         WorkoutPlan.owner_id == current_user.id
     ).first()
+
+    if workout is None:
+        raise HTTPException(status_code=404, detail="Workout not found")
+
+    return workout
