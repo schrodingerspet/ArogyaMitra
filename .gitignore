@@ -6,3 +6,8 @@ node_modules/
 dist/
 .DS_Store
 Thumbs.db
+
+.env
+env
+backend/.env
+backend/env
