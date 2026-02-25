@@ -1,0 +1,24 @@
+# Database
+DATABASE_URL=sqlite:///./arogya.db
+
+# Security
+SECRET_KEY=change-this-to-a-long-random-value
+
+# App Settings
+ENVIRONMENT=development
+DEBUG=true
+CORS_ORIGINS=http://localhost:5173
+
+# AI Services
+GROQ_API_KEY=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
+OPENAI_API_KEY=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
+GEMINI_API_KEY=AIzaSyCKPi-eIsz8u19d86J2VIbqXh_9XqxAxFA
+
+# Google Services
+GOOGLE_CALENDAR_CLIENT_ID=763216735829-hqer6q7ohilk0eia4ua6pnf09b43jb5k.apps.googleusercontent.com
+GOOGLE_CALENDAR_CLIENT_SECRET=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
+GOOGLE_CALENDAR_REDIRECT_URI=http://localhost:8000/api/auth/google/callback
+YOUTUBE_API_KEY=AIzaSyA7rTfZbZQFgqZ09aLhlkoS-b3Ltd9Y80Q
+
+# Nutrition API
+SPOONACULAR_API_KEY=d9838c0155d246feaa7fa48528ec510c
