@@ -18,7 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ✅ CREATE TABLES (safe — runs once)
+# Database schema creation; for production use Alembic migrations instead
 Base.metadata.create_all(bind=engine)
 
 # ✅ INCLUDE AUTH ROUTER (adds /auth endpoints)
