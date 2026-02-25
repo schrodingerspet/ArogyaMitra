@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from typing import Optional, List
 from datetime import datetime, date
 
@@ -6,9 +6,9 @@ from datetime import datetime, date
 # ═══════════════════════ Auth / User ═══════════════════════
 
 class UserCreate(BaseModel):
-    name: str
+    name: str = Field(..., min_length=1, max_length=100)
     email: EmailStr
-    password: str
+    password: str = Field(..., min_length=8, max_length=128)
 
 
 class UserLogin(BaseModel):
@@ -87,7 +87,7 @@ class ExerciseResponse(BaseModel):
 # ═══════════════════════ Workout Plan ═══════════════════════
 
 class WorkoutCreate(BaseModel):
-    title: str
+    title: str = Field(..., min_length=1, max_length=200)
     description: Optional[str] = None
     fitness_goal: Optional[str] = None
     workout_location: Optional[str] = None

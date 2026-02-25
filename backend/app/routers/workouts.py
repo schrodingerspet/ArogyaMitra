@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import SQLAlchemyError
 from typing import List, Optional
 from pydantic import BaseModel
 
@@ -100,8 +101,13 @@ def create_workout(
 ):
     new_workout = WorkoutPlan(owner_id=current_user.id, **workout.model_dump())
     db.add(new_workout)
-    db.commit()
-    db.refresh(new_workout)
+    try:
+        db.commit()
+        db.refresh(new_workout)
+    except SQLAlchemyError:
+        db.rollback()
+        raise HTTPException(status_code=500, detail="Failed to create workout")
+
     return new_workout
 
 

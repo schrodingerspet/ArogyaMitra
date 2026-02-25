@@ -9,7 +9,6 @@ from ..auth.dependencies import get_current_user
 
 router = APIRouter(prefix="/progress", tags=["Progress"])
 
-
 @router.post("/", response_model=ProgressRecordResponse)
 def create_progress(
     data: ProgressRecordCreate,

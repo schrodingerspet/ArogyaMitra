@@ -14,6 +14,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Database schema creation; for production use Alembic migrations instead
 Base.metadata.create_all(bind=engine)
 
 app.include_router(auth.router)
