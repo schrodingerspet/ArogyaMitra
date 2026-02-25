@@ -9,6 +9,7 @@ from ..schemas import (
     ChatMessageCreate, ChatMessageResponse,
 )
 from ..auth.dependencies import get_current_user
+from ..services.groq_service import GroqService
 
 router = APIRouter(prefix="/chat", tags=["Chat / AROMI"])
 
@@ -71,12 +72,23 @@ def add_message(
     db.commit()
     db.refresh(user_msg)
 
-    # AI response placeholder — will be replaced by Groq integration in Activity 3.5
-    ai_msg = ChatMessage(
-        session_id=session_id,
-        role="assistant",
-        content="AROMI AI integration pending. This is a placeholder response.",
-    )
+    # Build chat history and user profile for AROMI
+    history = [
+        {"role": m.role, "content": m.content}
+        for m in db.query(ChatMessage)
+        .filter(ChatMessage.session_id == session_id)
+        .order_by(ChatMessage.created_at)
+        .all()
+    ]
+    user_profile = {
+        "age": current_user.age, "gender": current_user.gender,
+        "weight_kg": current_user.weight_kg, "height_cm": current_user.height_cm,
+        "fitness_level": current_user.fitness_level, "goals": current_user.goals,
+    }
+
+    ai_response = GroqService.chat_with_aromi(data.content, history, user_profile)
+
+    ai_msg = ChatMessage(session_id=session_id, role="assistant", content=ai_response)
     db.add(ai_msg)
     db.commit()
     db.refresh(ai_msg)

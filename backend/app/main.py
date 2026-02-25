@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .database import Base, engine
-from .routers import auth, protected, workouts, nutrition, progress, health, calendar, admin, chat
+from .routers import auth, protected, workouts, nutrition, progress, health, calendar, admin, chat, analytics
 
 app = FastAPI(title="ArogyaMitra API")
 
@@ -25,6 +25,7 @@ app.include_router(health.router)
 app.include_router(calendar.router)
 app.include_router(admin.router)
 app.include_router(chat.router)
+app.include_router(analytics.router)
 
 
 @app.get("/")

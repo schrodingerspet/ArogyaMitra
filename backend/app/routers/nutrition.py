@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
+from pydantic import BaseModel
 
 from ..database import get_db
 from ..models import NutritionPlan, Meal, User
@@ -9,8 +10,92 @@ from ..schemas import (
     MealCreate, MealResponse,
 )
 from ..auth.dependencies import get_current_user
+from ..services.nutrition_service import NutritionService
+from ..services.health_service import HealthService
+from ..services.groq_service import GroqService
 
 router = APIRouter(prefix="/nutrition", tags=["Nutrition"])
+
+
+class GenerateNutritionRequest(BaseModel):
+    calorie_target: Optional[int] = None
+    diet_type: str = "vegetarian"
+    allergies: Optional[str] = None
+    cuisine_preference: str = "indian"
+    duration_days: int = 7
+    use_ai: bool = False
+
+
+@router.post("/generate")
+def generate_nutrition_plan(
+    req: GenerateNutritionRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """Generate a personalised nutrition/meal plan and save it to the database."""
+    # Auto-calculate calorie target from user profile if not provided
+    calorie_target = req.calorie_target
+    if not calorie_target and current_user.weight_kg and current_user.height_cm and current_user.age:
+        bmr = HealthService.calculate_bmr(
+            current_user.weight_kg, current_user.height_cm,
+            current_user.age, current_user.gender,
+        )
+        tdee = HealthService.calculate_tdee(bmr, current_user.activity_level)
+        calorie_target = HealthService.calorie_target_for_goal(tdee, current_user.goals)
+    calorie_target = calorie_target or 2000
+
+    if req.use_ai:
+        profile = {
+            "calorie_target": calorie_target,
+            "diet_type": req.diet_type,
+            "allergies": req.allergies or current_user.allergies or "none",
+            "cuisine_preference": req.cuisine_preference,
+            "goals": current_user.goals or "maintenance",
+        }
+        ai_result = GroqService.generate_nutrition_plan_ai(profile)
+        if ai_result:
+            return {"source": "ai", "calorie_target": calorie_target, "plan": ai_result}
+
+    plan_data = NutritionService.generate_meal_plan(
+        calorie_target=calorie_target,
+        diet_type=req.diet_type,
+        allergies=req.allergies or current_user.allergies,
+        cuisine_preference=req.cuisine_preference,
+        duration_days=req.duration_days,
+        goal=current_user.goals or "maintenance",
+    )
+
+    new_plan = NutritionPlan(
+        owner_id=current_user.id,
+        title=f"{req.diet_type.title()} Meal Plan — {calorie_target} kcal",
+        calorie_target=calorie_target,
+        diet_type=req.diet_type,
+        allergies=req.allergies,
+        cuisine_preference=req.cuisine_preference,
+        duration_days=req.duration_days,
+    )
+    db.add(new_plan)
+    db.flush()
+
+    for day in plan_data["days"]:
+        for meal in day["meals"]:
+            db.add(Meal(
+                nutrition_plan_id=new_plan.id,
+                day_number=meal["day_number"],
+                meal_type=meal["meal_type"],
+                name=meal["name"],
+                calories=meal.get("calories"),
+                protein_g=meal.get("protein_g"),
+                carbs_g=meal.get("carbs_g"),
+                fat_g=meal.get("fat_g"),
+                fiber_g=meal.get("fiber_g"),
+                recipe=meal.get("recipe"),
+                ingredients=meal.get("ingredients"),
+            ))
+    db.commit()
+    db.refresh(new_plan)
+
+    return {"source": "template", "plan_id": new_plan.id, "summary": plan_data}
 
 
 @router.post("/", response_model=NutritionPlanResponse)
