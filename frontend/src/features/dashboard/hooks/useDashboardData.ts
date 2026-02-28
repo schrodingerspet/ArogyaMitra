@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getStreak, getSummary, getWeekly } from "../../../api/analytics";
 
+
 const DASHBOARD_KEYS = {
   summary: ["analytics", "summary"],
   weekly: ["analytics", "weekly"],
