@@ -1,5 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from .database import Base, engine
 from .routers import auth, protected, workouts, nutrition, progress, health, calendar, admin, chat, analytics

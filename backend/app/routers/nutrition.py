@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from pydantic import BaseModel
+import json
+import re
 
 from ..database import get_db
 from ..models import NutritionPlan, Meal, User
@@ -54,7 +56,50 @@ def generate_nutrition_plan(
         }
         ai_result = GroqService.generate_nutrition_plan_ai(profile)
         if ai_result:
-            return {"source": "ai", "calorie_target": calorie_target, "plan": ai_result}
+            try:
+                cleaned = re.sub(r"```(?:json)?\s*", "", ai_result).strip().rstrip("`")
+                plan_data = json.loads(cleaned)
+            except (json.JSONDecodeError, ValueError):
+                plan_data = None
+
+            if plan_data and "days" in plan_data:
+                new_plan = NutritionPlan(
+                    owner_id=current_user.id,
+                    title=f"{req.diet_type.title()} AI Meal Plan — {calorie_target} kcal",
+                    calorie_target=calorie_target,
+                    diet_type=req.diet_type,
+                    allergies=req.allergies,
+                    cuisine_preference=req.cuisine_preference,
+                    duration_days=req.duration_days,
+                )
+                db.add(new_plan)
+                db.flush()
+
+                for day in plan_data["days"]:
+                    day_num = day.get("day_number", 1)
+                    for meal in day.get("meals", []):
+                        ingredients = meal.get("ingredients")
+                        if isinstance(ingredients, list):
+                            ingredients = ", ".join(str(i) for i in ingredients)
+                        recipe = meal.get("recipe")
+                        if isinstance(recipe, list):
+                            recipe = "; ".join(str(r) for r in recipe)
+                        db.add(Meal(
+                            nutrition_plan_id=new_plan.id,
+                            day_number=day_num,
+                            meal_type=meal.get("meal_type", "snack"),
+                            name=meal.get("name", "Meal"),
+                            calories=int(meal["calories"]) if meal.get("calories") else None,
+                            protein_g=float(meal["protein_g"]) if meal.get("protein_g") else None,
+                            carbs_g=float(meal["carbs_g"]) if meal.get("carbs_g") else None,
+                            fat_g=float(meal["fat_g"]) if meal.get("fat_g") else None,
+                            fiber_g=float(meal["fiber_g"]) if meal.get("fiber_g") else None,
+                            recipe=recipe,
+                            ingredients=ingredients,
+                        ))
+                db.commit()
+                db.refresh(new_plan)
+                return {"source": "ai", "plan_id": new_plan.id, "summary": plan_data}
 
     plan_data = NutritionService.generate_meal_plan(
         calorie_target=calorie_target,

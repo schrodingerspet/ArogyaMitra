@@ -120,3 +120,57 @@ class GroqService:
             return completion.choices[0].message.content
         except Exception as e:
             return f"AROMI encountered an error: {str(e)}"
+
+    @classmethod
+    def extract_plan_from_chat(cls, chat_history: list, action_type: str, user_profile: dict) -> Optional[str]:
+        """Extract structured JSON from a chat conversation for saving as a plan or profile update."""
+        client = _get_client()
+        if not client:
+            return None
+
+        prompts = {
+            "workout": (
+                "Extract the workout plan from the conversation and return ONLY valid JSON:\n"
+                '{"title":"...","description":"...","fitness_goal":"...","workout_location":"home|gym|outdoor",'
+                '"duration_days":7,"daily_minutes":30,"difficulty_level":"beginner|intermediate|advanced",'
+                '"days":[{"day_number":1,"exercises":[{"name":"...","category":"...","sets":3,"reps":12,'
+                '"duration_seconds":null,"rest_seconds":60,"instructions":"...","order":1}]}]}'
+            ),
+            "nutrition": (
+                "Extract the nutrition/meal plan from the conversation and return ONLY valid JSON:\n"
+                '{"title":"...","calorie_target":2000,"diet_type":"vegetarian|non-veg",'
+                '"cuisine_preference":"indian","duration_days":7,'
+                '"days":[{"day_number":1,"meals":[{"meal_type":"breakfast|lunch|dinner|snack",'
+                '"name":"...","calories":400,"protein_g":20,"carbs_g":50,"fat_g":15,'
+                '"recipe":"...","ingredients":"..."}]}]}'
+            ),
+            "profile": (
+                "Extract user profile information mentioned in the conversation and return ONLY valid JSON:\n"
+                '{"age":null,"gender":null,"height_cm":null,"weight_kg":null,'
+                '"fitness_level":null,"goals":null,"activity_level":null,'
+                '"medical_conditions":null,"allergies":null}\n'
+                "Only include fields that were explicitly mentioned. Convert height to cm if given in feet "
+                "(1 foot = 30.48 cm). Set unmentioned fields to null."
+            ),
+        }
+
+        system = (
+            "You are a data extraction assistant. Extract structured data from the conversation below. "
+            "Return ONLY valid JSON, no markdown, no explanation, no code fences."
+        )
+        history_text = "\n".join(f"{m['role']}: {m['content']}" for m in chat_history[-30:])
+        prompt = f"{prompts.get(action_type, prompts['profile'])}\n\nConversation:\n{history_text}"
+
+        try:
+            completion = client.chat.completions.create(
+                model=MODEL,
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": prompt},
+                ],
+                max_tokens=4096,
+                temperature=0.2,
+            )
+            return completion.choices[0].message.content
+        except Exception:
+            return None

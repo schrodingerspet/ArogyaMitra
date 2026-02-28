@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from typing import List, Optional
 from pydantic import BaseModel
+import json
+import re
 
 from ..database import get_db
 from ..models import WorkoutPlan, Exercise, User
@@ -47,7 +49,47 @@ def generate_workout(
         }
         ai_result = GroqService.generate_workout_plan_ai(profile)
         if ai_result:
-            return {"source": "ai", "plan": ai_result}
+            try:
+                cleaned = re.sub(r"```(?:json)?\s*", "", ai_result).strip().rstrip("`")
+                plan_data = json.loads(cleaned)
+            except (json.JSONDecodeError, ValueError):
+                plan_data = None
+
+            if plan_data and "days" in plan_data:
+                new_plan = WorkoutPlan(
+                    owner_id=current_user.id,
+                    title=f"{req.fitness_goal.replace('_', ' ').title()} — AI Plan",
+                    description="AI-generated personalised workout plan",
+                    fitness_goal=req.fitness_goal,
+                    workout_location=req.workout_location,
+                    duration_days=req.duration_days,
+                    daily_minutes=req.daily_minutes,
+                    difficulty_level=req.difficulty_level,
+                )
+                db.add(new_plan)
+                db.flush()
+
+                for day in plan_data["days"]:
+                    day_num = day.get("day_number", 1)
+                    for idx, ex in enumerate(day.get("exercises", [])):
+                        instructions = ex.get("instructions")
+                        if isinstance(instructions, list):
+                            instructions = "; ".join(str(i) for i in instructions)
+                        db.add(Exercise(
+                            workout_plan_id=new_plan.id,
+                            day_number=day_num,
+                            name=ex.get("name", "Exercise"),
+                            category=ex.get("category"),
+                            sets=int(ex["sets"]) if ex.get("sets") else None,
+                            reps=int(ex["reps"]) if ex.get("reps") else None,
+                            duration_seconds=int(ex["duration_seconds"]) if ex.get("duration_seconds") else None,
+                            rest_seconds=int(ex["rest_seconds"]) if ex.get("rest_seconds") else None,
+                            instructions=instructions,
+                            order=ex.get("order", idx + 1),
+                        ))
+                db.commit()
+                db.refresh(new_plan)
+                return {"source": "ai", "plan_id": new_plan.id, "summary": plan_data}
 
     # Template-based generation
     plan_data = WorkoutService.generate_plan(
