@@ -7,6 +7,12 @@ Team lead must update the project card with:
 - Demo URL
 - GitHub repository URL
 
+Suggested message to team lead:
+
+```text
+Please update the project card with the final Demo URL and GitHub repository URL for mentor evaluation.
+```
+
 ---
 
 ## Corrected Pre-requisites
@@ -144,3 +150,15 @@ Bearer <JWT_TOKEN>
 - PR approved
 - Tests/manual checks added
 - Documentation updated
+
+---
+
+## Current Re-check Status
+
+| Epic | Status |
+|---|---|
+| Epic 1: Environment Setup | Done |
+| Epic 2: Backend API Development | Done |
+| Epic 3: AI + External API Integration | Done (Calendar event sync endpoint active; requires valid Google OAuth access token) |
+| Epic 4: React Frontend Development | Done |
+| Epic 5: Testing and Deployment | In Progress (lint/build/compile checks passing) |

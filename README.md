@@ -9,6 +9,24 @@ Before mentor evaluation, please ask the team lead to update:
 - Demo URL: `ADD_DEMO_LINK_HERE`
 - GitHub Repository URL: `ADD_GITHUB_LINK_HERE`
 
+Use this copy-paste request:
+
+```text
+Hi Team Lead, please update the project card links for mentor review:
+1) Demo URL: <paste deployed demo link>
+2) GitHub URL: <paste repository link>
+```
+
+## Activity Completion Check (Re-verified)
+
+| Activity Group | Status | Notes |
+|---|---|---|
+| Epic 1 (1.1-1.5) Setup | Done | `.env.example` files are present and setup script paths are valid. |
+| Epic 2 (2.1-2.4) Backend | Done | Auth, routers, models, and service-layer modules are implemented. |
+| Epic 3 (3.1-3.5) Integrations | Done | Groq, YouTube, Spoonacular, and Calendar event sync endpoint implemented. |
+| Epic 4 (4.1-4.4) Frontend | Done | Dashboard, feature pages, AROMI assistant, and Zustand stores are in place. |
+| Epic 5 (5.1-5.4) Testing | In Progress | Current validation uses lint/build/compile checks; full automated suites can be extended. |
+
 ## Project Overview
 
 ArogyaMitra provides:

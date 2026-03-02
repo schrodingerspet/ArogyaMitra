@@ -18,7 +18,11 @@ const useUiStore = create((set) => ({
       }
       return { sidebarCollapsed: next };
     }),
-  setMobileSidebarOpen: (open) => set({ mobileSidebarOpen: open }),
+  setMobileSidebarOpen: (nextValue) =>
+    set((state) => ({
+      mobileSidebarOpen:
+        typeof nextValue === "function" ? nextValue(state.mobileSidebarOpen) : nextValue,
+    })),
 }));
 
 export default useUiStore;

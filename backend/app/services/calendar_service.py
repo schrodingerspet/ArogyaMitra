@@ -1,7 +1,12 @@
-"""Google Calendar API service — workout schedule sync (shell for Activity 3.4)."""
+"""Google Calendar API service — workout schedule sync."""
 
 import os
 from typing import Optional
+
+import httpx
+
+
+GOOGLE_CALENDAR_EVENTS_URL = "https://www.googleapis.com/calendar/v3/calendars/primary/events"
 
 
 class CalendarService:
@@ -18,20 +23,59 @@ class CalendarService:
         start_datetime: str,
         end_datetime: str,
         access_token: str,
+        timezone: str = "UTC",
     ) -> Optional[dict]:
-        """Create a Google Calendar event for a workout session.
+        """Create a Google Calendar event for a workout session."""
+        if not access_token or access_token.startswith("your_"):
+            return {
+                "status": "error",
+                "message": "A valid Google OAuth access token is required.",
+            }
 
-        Full OAuth flow will be implemented in Activity 3.4.
-        Returns None until then.
-        """
-        # Placeholder — requires OAuth 2.0 token exchange
+        payload = {
+            "summary": title,
+            "description": description,
+            "start": {"dateTime": start_datetime, "timeZone": timezone},
+            "end": {"dateTime": end_datetime, "timeZone": timezone},
+        }
+
+        headers = {
+            "Authorization": f"Bearer {access_token}",
+            "Content-Type": "application/json",
+        }
+
+        try:
+            response = httpx.post(
+                GOOGLE_CALENDAR_EVENTS_URL,
+                headers=headers,
+                json=payload,
+                timeout=15,
+            )
+            response.raise_for_status()
+        except httpx.HTTPStatusError as exc:
+            details = exc.response.text
+            if exc.response.headers.get("content-type", "").startswith("application/json"):
+                try:
+                    details = exc.response.json()
+                except ValueError:
+                    details = exc.response.text
+            return {
+                "status": "error",
+                "message": "Google Calendar API rejected the request.",
+                "details": details,
+            }
+        except httpx.RequestError as exc:
+            return {
+                "status": "error",
+                "message": f"Google Calendar API connection failed: {exc}",
+            }
+
+        event = response.json()
         return {
-            "status": "pending_integration",
-            "message": "Google Calendar sync will be available after Activity 3.4",
-            "event_preview": {
-                "title": title,
-                "description": description,
-                "start": start_datetime,
-                "end": end_datetime,
-            },
+            "status": "created",
+            "event_id": event.get("id"),
+            "html_link": event.get("htmlLink"),
+            "summary": event.get("summary"),
+            "start": event.get("start"),
+            "end": event.get("end"),
         }

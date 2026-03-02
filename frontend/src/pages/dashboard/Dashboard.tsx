@@ -27,12 +27,12 @@ function DashboardSkeleton() {
   return (
     <div className="space-y-6">
       <div className="skeleton h-8 w-64 rounded-lg" />
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
         {[1, 2, 3, 4].map((i) => (
           <div key={i} className="skeleton h-44 rounded-2xl" />
         ))}
       </div>
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         <div className="skeleton h-80 xl:col-span-2 rounded-2xl" />
         <div className="skeleton h-80 rounded-2xl" />
       </div>
@@ -157,7 +157,7 @@ export default function Dashboard() {
         </p>
       </motion.div>
 
-      <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-12 gap-4">
+      <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-12 gap-6">
         <div className="xl:col-span-3">
           <MetricCard
             icon={FiZap}
@@ -204,7 +204,7 @@ export default function Dashboard() {
         </div>
       </motion.div>
 
-      <motion.div variants={item} className="grid grid-cols-1 xl:grid-cols-12 gap-4">
+      <motion.div variants={item} className="grid grid-cols-1 xl:grid-cols-12 gap-6">
         <ChartCard
           icon={FiHeart}
           title="Weekly activity"
@@ -218,7 +218,7 @@ export default function Dashboard() {
         </div>
       </motion.div>
 
-      <motion.div variants={item} className="grid grid-cols-1 xl:grid-cols-12 gap-4">
+      <motion.div variants={item} className="grid grid-cols-1 xl:grid-cols-12 gap-6">
         <Card className="p-5 xl:col-span-8">
           <h3 className="text-sm font-semibold" style={{ color: "var(--text-1)" }}>Quick actions</h3>
           <p className="text-xs mt-1" style={{ color: "var(--text-3)" }}>Start key flows in one click.</p>
