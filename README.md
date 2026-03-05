@@ -87,7 +87,7 @@ ArogyaMitra/
 ### 1. Clone & Setup
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/schrodingerspet/ArogyaMitra.git
 cd ArogyaMitra
 ```
 
