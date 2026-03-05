@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import os
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -9,9 +10,10 @@ from .routers import auth, protected, workouts, nutrition, progress, health, cal
 
 app = FastAPI(title="ArogyaMitra API")
 
+cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:5173")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[o.strip() for o in cors_origins.split(",")],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
