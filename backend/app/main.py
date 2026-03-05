@@ -10,7 +10,10 @@ from .routers import auth, protected, workouts, nutrition, progress, health, cal
 
 app = FastAPI(title="ArogyaMitra API")
 
-cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:5173")
+cors_origins = os.getenv(
+    "CORS_ORIGINS",
+    "http://localhost:5173,https://schrodingerspet.github.io",
+)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[o.strip() for o in cors_origins.split(",")],
