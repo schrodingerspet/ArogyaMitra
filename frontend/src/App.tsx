@@ -34,7 +34,7 @@ function AppShell() {
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/ArogyaMitra">
       <Toaster
         position="top-right"
         toastOptions={{
