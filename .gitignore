@@ -1,13 +1,37 @@
+# Virtual environments
 .venv/
+venv/
+env/
+
+# Python
 __pycache__/
 *.pyc
+*.pyo
+
+# Environment files (API keys / secrets)
 .env
+.env.local
+.env.production
+backend/.env
+frontend/.env
+frontend/env
+
+# Dependencies
 node_modules/
+
+# Build output
 dist/
+build/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# OS junk
 .DS_Store
 Thumbs.db
 
-.env
-env
-backend/.env
-backend/env
+# IDE
+.vscode/
+.idea/
