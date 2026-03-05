@@ -1,0 +1,1 @@
+import{S as t}from"./index-H-mDXKnF.js";const a=()=>t.get("/analytics/summary"),s=()=>t.get("/analytics/weekly"),g=()=>t.get("/analytics/weight-trend"),n=()=>t.get("/analytics/streak");export{n as a,s as b,g as c,a as g};
