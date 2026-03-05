@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FiActivity, FiHeart, FiHome, FiLogOut, FiTrendingUp, FiUser } from "react-icons/fi";
+import { FiActivity, FiHeart, FiHome, FiLogOut, FiTrendingUp, FiUser, FiUsers, FiFileText } from "react-icons/fi";
 import { GiMeal } from "react-icons/gi";
 import useAuthStore from "../stores/authStore";
 
@@ -10,6 +10,8 @@ const navItems = [
   { to: "/health", icon: FiHeart, label: "Health" },
   { to: "/progress", icon: FiTrendingUp, label: "Progress" },
   { to: "/profile", icon: FiUser, label: "Profile" },
+  { to: "/contributors", icon: FiUsers, label: "Contributors" },
+  { to: "/license", icon: FiFileText, label: "License" },
 ];
 
 function HamburgerIcon() {

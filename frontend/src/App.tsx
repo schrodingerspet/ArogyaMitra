@@ -17,6 +17,8 @@ const NutritionGenerate = lazy(() => import("./pages/nutrition/NutritionGenerate
 const HealthAssessment = lazy(() => import("./pages/health/HealthAssessment"));
 const Progress = lazy(() => import("./pages/progress/Progress"));
 const Profile = lazy(() => import("./pages/profile/Profile"));
+const Contributors = lazy(() => import("./pages/contributors/Contributors"));
+const License = lazy(() => import("./pages/license/License"));
 
 function AppShell() {
   return (
@@ -71,6 +73,8 @@ function App() {
             <Route path="/health" element={<HealthAssessment />} />
             <Route path="/progress" element={<Progress />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/contributors" element={<Contributors />} />
+            <Route path="/license" element={<License />} />
           </Route>
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
