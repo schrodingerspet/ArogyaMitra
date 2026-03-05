@@ -99,7 +99,7 @@ export default function Sidebar({
                 <HamburgerIcon />
               </button>
             )}
-            <img src="/logo.png" alt="ArogyaMitra logo" className="w-9 h-9 rounded-xl object-cover shrink-0" />
+            <img src={`${import.meta.env.BASE_URL}logo.png`} alt="ArogyaMitra logo" className="w-9 h-9 rounded-xl object-cover shrink-0" />
             {showLabels && <span className="text-base font-bold text-gradient whitespace-nowrap">ArogyaMitra</span>}
           </div>
 
