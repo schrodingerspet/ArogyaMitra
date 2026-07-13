@@ -43,6 +43,7 @@ export default function Sidebar({
   const navigate = useNavigate();
   const logout = useAuthStore((s) => s.logout);
   const user = useAuthStore((s) => s.user);
+  const { t } = useTranslation();
 
   const compact = mode === "tablet";
   const showMobileDrawer = mode === "mobile";
