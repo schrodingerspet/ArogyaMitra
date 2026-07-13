@@ -15,6 +15,7 @@ from ..schemas import (
 from ..auth.dependencies import get_current_user
 from ..services.workout_service import WorkoutService
 from ..services.groq_service import GroqService
+from ..utils.parsers import safe_int, safe_float
 
 router = APIRouter(prefix="/workouts", tags=["Workouts"])
 
@@ -80,10 +81,10 @@ def generate_workout(
                             day_number=day_num,
                             name=ex.get("name", "Exercise"),
                             category=ex.get("category"),
-                            sets=int(ex["sets"]) if ex.get("sets") else None,
-                            reps=int(ex["reps"]) if ex.get("reps") else None,
-                            duration_seconds=int(ex["duration_seconds"]) if ex.get("duration_seconds") else None,
-                            rest_seconds=int(ex["rest_seconds"]) if ex.get("rest_seconds") else None,
+                            sets=safe_int(ex.get("sets")),
+                            reps=safe_int(ex.get("reps")),
+                            duration_seconds=safe_int(ex.get("duration_seconds")),
+                            rest_seconds=safe_int(ex.get("rest_seconds")),
                             instructions=instructions,
                             order=ex.get("order", idx + 1),
                         ))

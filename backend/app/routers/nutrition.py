@@ -15,6 +15,7 @@ from ..auth.dependencies import get_current_user
 from ..services.nutrition_service import NutritionService
 from ..services.health_service import HealthService
 from ..services.groq_service import GroqService
+from ..utils.parsers import safe_int, safe_float
 
 router = APIRouter(prefix="/nutrition", tags=["Nutrition"])
 
@@ -89,11 +90,11 @@ def generate_nutrition_plan(
                             day_number=day_num,
                             meal_type=meal.get("meal_type", "snack"),
                             name=meal.get("name", "Meal"),
-                            calories=int(meal["calories"]) if meal.get("calories") else None,
-                            protein_g=float(meal["protein_g"]) if meal.get("protein_g") else None,
-                            carbs_g=float(meal["carbs_g"]) if meal.get("carbs_g") else None,
-                            fat_g=float(meal["fat_g"]) if meal.get("fat_g") else None,
-                            fiber_g=float(meal["fiber_g"]) if meal.get("fiber_g") else None,
+                            calories=safe_int(meal.get("calories")),
+                            protein_g=safe_float(meal.get("protein_g")),
+                            carbs_g=safe_float(meal.get("carbs_g")),
+                            fat_g=safe_float(meal.get("fat_g")),
+                            fiber_g=safe_float(meal.get("fiber_g")),
                             recipe=recipe,
                             ingredients=ingredients,
                         ))

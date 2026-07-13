@@ -6,9 +6,15 @@ const API = axios.create({
   baseURL: apiBaseUrl || "/api",
 });
 
+let cachedToken: string | null = localStorage.getItem("token");
+
+// Update cached token on storage events for multi-tab sync
+window.addEventListener("storage", (e) => {
+  if (e.key === "token") cachedToken = e.newValue;
+});
+
 API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+  if (cachedToken) config.headers.Authorization = `Bearer ${cachedToken}`;
   return config;
 });
 

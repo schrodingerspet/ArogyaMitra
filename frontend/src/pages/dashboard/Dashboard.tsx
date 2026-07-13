@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   FiActivity,
+  FiAlertCircle,
   FiAward,
   FiHeart,
   FiMessageCircle,
@@ -120,6 +121,27 @@ function ActivityFeed({ summary, streak }) {
   );
 }
 
+function WellnessDisclaimer() {
+  return (
+    <Card className="glass-subtle p-4 mb-6 relative overflow-hidden" style={{ border: "1px solid var(--border-subtle)" }}>
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "var(--color-warning)", opacity: 0.05 }} />
+      <div className="relative flex gap-3 items-start">
+        <FiAlertCircle className="text-xl shrink-0 mt-0.5" style={{ color: "var(--color-warning)" }} />
+        <div>
+          <h3 className="text-sm font-semibold" style={{ color: "var(--text-1)" }}>
+            Wellness & Safety Disclaimer
+          </h3>
+          <p className="text-xs mt-1 leading-relaxed" style={{ color: "var(--text-2)" }}>
+            AI-generated workout and nutrition guidance is for informational purposes only.
+            Please consult a qualified healthcare professional before beginning any new fitness or diet program,
+            especially if you have injuries, allergies, pregnancy, or pre-existing medical conditions.
+          </p>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
 export default function Dashboard() {
   const user = useAuthStore((s) => s.user);
   const { summary, weekly, streak, loading } = useDashboardData();
@@ -148,6 +170,7 @@ export default function Dashboard() {
   return (
     <motion.div initial="hidden" animate="show" variants={container} className="space-y-6">
       <motion.div variants={item}>
+        <WellnessDisclaimer />
         <h1 style={{ color: "var(--text-1)" }}>
           {getGreeting()},{" "}
           <span className="text-gradient">{user?.name?.split(" ")[0] || "Athlete"}</span>
