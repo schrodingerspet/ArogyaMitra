@@ -3,6 +3,7 @@ import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AromiChat from "./components/AromiChat";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 const Layout = lazy(() => import("./components/Layout"));
 const Login = lazy(() => import("./pages/auth/Login"));
@@ -75,56 +76,58 @@ function App() {
           error: { iconTheme: { primary: "var(--danger)", secondary: "var(--surface-2)" } },
         }}
       />
-      <Suspense fallback={<AppShell />}>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route
-            element={
-              <ProtectedRoute>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/workouts" element={<WorkoutList />} />
-            <Route path="/workouts/generate" element={<WorkoutGenerate />} />
-            <Route path="/workouts/:id" element={<WorkoutDetail />} />
-            <Route path="/nutrition" element={<NutritionList />} />
-            <Route path="/nutrition/generate" element={<NutritionGenerate />} />
-            <Route path="/nutrition/:id" element={<NutritionDetail />} />
-            <Route path="/health" element={<HealthAssessment />} />
-            <Route path="/progress" element={<Progress />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/contributors" element={<Contributors />} />
-            <Route path="/license" element={<License />} />
-            
-            <Route path="/analytics/metrics" element={<MetricsDashboard />} />
-            <Route path="/analytics/insights" element={<InsightsDashboard />} />
-            <Route path="/analytics/goals" element={<GoalTracker />} />
-            <Route path="/analytics/reports" element={<ReportCompare />} />
-            
-            <Route path="/appointments/calendar" element={<DoctorCalendar />} />
-            <Route path="/appointments/waiting-list" element={<WaitingList />} />
-            <Route path="/appointments/reminders" element={<SmartReminders />} />
-            <Route path="/appointments/follow-ups" element={<FollowUpRecommendations />} />
-            
-            <Route path="/records/documents" element={<DocumentOrganizer />} />
-            <Route path="/records/timeline" element={<HealthTimeline />} />
-            <Route path="/records/family" element={<FamilyProfiles />} />
-            <Route path="/records/emergency" element={<EmergencyCard />} />
-            
-            <Route path="/tracking/symptoms" element={<SymptomJournal />} />
-            <Route path="/tracking/medications" element={<MedicationReminders />} />
-            <Route path="/tracking/vaccinations" element={<VaccinationSchedule />} />
-            <Route path="/tracking/notifications" element={<NotificationCenter />} />
-            
-            <Route path="/services/hospitals" element={<HospitalFinder />} />
-            <Route path="/services/labs" element={<LabTestBooking />} />
-          </Route>
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
-        </Routes>
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={<AppShell />}>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route
+              element={
+                <ProtectedRoute>
+                  <Layout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/workouts" element={<WorkoutList />} />
+              <Route path="/workouts/generate" element={<WorkoutGenerate />} />
+              <Route path="/workouts/:id" element={<WorkoutDetail />} />
+              <Route path="/nutrition" element={<NutritionList />} />
+              <Route path="/nutrition/generate" element={<NutritionGenerate />} />
+              <Route path="/nutrition/:id" element={<NutritionDetail />} />
+              <Route path="/health" element={<HealthAssessment />} />
+              <Route path="/progress" element={<Progress />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/contributors" element={<Contributors />} />
+              <Route path="/license" element={<License />} />
+              
+              <Route path="/analytics/metrics" element={<MetricsDashboard />} />
+              <Route path="/analytics/insights" element={<InsightsDashboard />} />
+              <Route path="/analytics/goals" element={<GoalTracker />} />
+              <Route path="/analytics/reports" element={<ReportCompare />} />
+              
+              <Route path="/appointments/calendar" element={<DoctorCalendar />} />
+              <Route path="/appointments/waiting-list" element={<WaitingList />} />
+              <Route path="/appointments/reminders" element={<SmartReminders />} />
+              <Route path="/appointments/follow-ups" element={<FollowUpRecommendations />} />
+              
+              <Route path="/records/documents" element={<DocumentOrganizer />} />
+              <Route path="/records/timeline" element={<HealthTimeline />} />
+              <Route path="/records/family" element={<FamilyProfiles />} />
+              <Route path="/records/emergency" element={<EmergencyCard />} />
+              
+              <Route path="/tracking/symptoms" element={<SymptomJournal />} />
+              <Route path="/tracking/medications" element={<MedicationReminders />} />
+              <Route path="/tracking/vaccinations" element={<VaccinationSchedule />} />
+              <Route path="/tracking/notifications" element={<NotificationCenter />} />
+              
+              <Route path="/services/hospitals" element={<HospitalFinder />} />
+              <Route path="/services/labs" element={<LabTestBooking />} />
+            </Route>
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
+        </Suspense>
+      </ErrorBoundary>
       <AromiChat />
     </HashRouter>
   );
