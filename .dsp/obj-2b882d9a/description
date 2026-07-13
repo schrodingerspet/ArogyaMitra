@@ -1,3 +1,0 @@
-source: ./frontend/src/components/ui/index.ts
-kind: object
-purpose: index.ts file in ui

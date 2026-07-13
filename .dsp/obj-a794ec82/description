@@ -1,3 +1,0 @@
-source: ./frontend/src/api/workouts.ts
-kind: object
-purpose: workouts.ts file in api

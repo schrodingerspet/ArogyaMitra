@@ -1,3 +1,0 @@
-source: ./frontend/src/main.tsx
-kind: object
-purpose: React frontend entrypoint

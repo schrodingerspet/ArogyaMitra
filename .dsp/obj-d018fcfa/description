@@ -1,3 +1,0 @@
-source: ./frontend/src/pages/auth/Login.tsx
-kind: object
-purpose: Login.tsx file in auth

@@ -1,3 +1,0 @@
-source: ./frontend/src/lib/theme.ts
-kind: object
-purpose: theme.ts file in lib

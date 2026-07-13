@@ -1,3 +1,0 @@
-source: ./backend/app/routers/analytics.py
-kind: object
-purpose: analytics.py file in routers

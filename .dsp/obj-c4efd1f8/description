@@ -1,3 +1,0 @@
-source: ./backend/scripts/init_db.py
-kind: object
-purpose: init_db.py file in scripts

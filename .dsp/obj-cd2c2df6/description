@@ -1,3 +1,0 @@
-source: ./frontend/src/stores/analyticsStore.ts
-kind: object
-purpose: analyticsStore.ts file in stores

@@ -1,3 +1,0 @@
-source: ./frontend/.storybook/preview.js
-kind: object
-purpose: preview.js file in .storybook

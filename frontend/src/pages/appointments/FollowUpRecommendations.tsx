@@ -2,12 +2,10 @@ import { motion } from "framer-motion";
 import { FiArrowRight, FiCheckCircle } from "react-icons/fi";
 import { Card } from "../../components/ui";
 import AppointmentsTabs from "./AppointmentsTabs";
+import { useRecommendations } from "../../features/appointments/useAppointmentsQueries";
 
 export default function FollowUpRecommendations() {
-  const recommendations = [
-    { doctor: "Dr. Smith", specialty: "Cardiology", reason: "Post-surgery checkup (3 months)", dueDate: "Oct 20, 2026", urgency: "High" },
-    { doctor: "Dr. Adams", specialty: "General Practice", reason: "Annual physical exam", dueDate: "Nov 01, 2026", urgency: "Normal" }
-  ];
+  const { data: recommendations = [] } = useRecommendations();
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
@@ -20,7 +18,7 @@ export default function FollowUpRecommendations() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {recommendations.map((rec, i) => (
+        {recommendations.map((rec: any, i: number) => (
           <Card key={i} className="p-5 glass-subtle relative overflow-hidden" style={{ border: rec.urgency === "High" ? "1px solid var(--color-warning)" : "1px solid var(--border-subtle)" }}>
             {rec.urgency === "High" && (
               <div className="absolute top-0 right-0 px-3 py-1 text-[10px] font-bold uppercase rounded-bl-lg" style={{ background: "var(--color-warning-dim, rgba(245, 158, 11, 0.1))", color: "var(--color-warning)" }}>

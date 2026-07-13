@@ -1,3 +1,0 @@
-source: ./backend/app/schemas.py
-kind: object
-purpose: schemas.py file in app

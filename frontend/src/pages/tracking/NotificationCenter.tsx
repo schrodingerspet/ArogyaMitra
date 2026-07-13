@@ -2,13 +2,10 @@ import { motion } from "framer-motion";
 import { FiInfo, FiAlertCircle, FiCheck } from "react-icons/fi";
 import { Card } from "../../components/ui";
 import TrackingTabs from "./TrackingTabs";
+import { useNotifications } from "../../features/tracking/hooks/useTrackingQueries";
 
 export default function NotificationCenter() {
-  const notifications = [
-    { type: "Alert", msg: "Dr. Smith requested a follow-up appointment.", time: "1 hour ago", read: false },
-    { type: "Info", msg: "Your lab results (Blood Test) are ready.", time: "3 hours ago", read: false },
-    { type: "Success", msg: "Prescription for Vitamin D3 renewed successfully.", time: "1 day ago", read: true }
-  ];
+  const { data: notifications = [] } = useNotifications();
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
@@ -24,7 +21,7 @@ export default function NotificationCenter() {
       </div>
 
       <div className="space-y-3">
-        {notifications.map((notif, i) => (
+        {notifications.map((notif: any, i: number) => (
           <Card key={i} className="p-4 flex gap-4 relative overflow-hidden" style={{ background: notif.read ? "var(--surface-1)" : "var(--surface-2)", border: "1px solid var(--border-subtle)" }}>
             {!notif.read && <div className="absolute left-0 top-0 bottom-0 w-1" style={{ background: "var(--accent)" }} />}
             <div className="text-lg mt-0.5" style={{ color: notif.type === "Alert" ? "var(--color-warning)" : notif.type === "Info" ? "var(--color-info)" : "var(--color-success)" }}>

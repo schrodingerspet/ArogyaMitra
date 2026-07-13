@@ -2,13 +2,10 @@ import { motion } from "framer-motion";
 import { FiBell, FiCalendar, FiClock } from "react-icons/fi";
 import { Card } from "../../components/ui";
 import AppointmentsTabs from "./AppointmentsTabs";
+import { useReminders } from "../../features/appointments/useAppointmentsQueries";
 
 export default function SmartReminders() {
-  const reminders = [
-    { type: "Appointment", details: "Cardiology Checkup with Dr. Smith", time: "Tomorrow, 10:00 AM", status: "Upcoming" },
-    { type: "Medication", details: "Take Blood Pressure Pills", time: "Today, 08:00 PM", status: "Pending" },
-    { type: "Lab Test", details: "Fasting Blood Sugar Test", time: "Oct 15, 07:00 AM", status: "Scheduled" }
-  ];
+  const { data: reminders = [] } = useReminders();
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
@@ -24,7 +21,7 @@ export default function SmartReminders() {
       </div>
 
       <div className="grid gap-4">
-        {reminders.map((reminder, i) => (
+        {reminders.map((reminder: any, i: number) => (
           <Card key={i} className="p-4 glass-subtle flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-4">
                <div className="w-12 h-12 rounded-xl flex items-center justify-center text-lg" style={{ background: "var(--surface-2)", color: "var(--accent)" }}>

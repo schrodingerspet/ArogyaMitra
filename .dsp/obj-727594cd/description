@@ -1,3 +1,0 @@
-source: ./frontend/src/api/progress.ts
-kind: object
-purpose: progress.ts file in api

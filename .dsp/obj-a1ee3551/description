@@ -1,3 +1,0 @@
-source: ./frontend/.gitignore
-kind: object
-purpose: .gitignore file in frontend

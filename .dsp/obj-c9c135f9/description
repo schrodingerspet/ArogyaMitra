@@ -1,3 +1,0 @@
-source: ./frontend/vite.config.ts
-kind: object
-purpose: vite.config.ts file in frontend

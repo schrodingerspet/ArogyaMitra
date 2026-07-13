@@ -1,3 +1,0 @@
-source: ./frontend/src/pages/auth/Register.tsx
-kind: object
-purpose: Register.tsx file in auth

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, Text, DateTime, ForeignKey, Date
+from sqlalchemy import Column, Integer, String, Float, Text, DateTime, ForeignKey, Date, Boolean
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
@@ -152,6 +152,10 @@ class ProgressRecord(Base):
     steps = Column(Integer, nullable=True)
     water_intake_liters = Column(Float, nullable=True)
     sleep_hours = Column(Float, nullable=True)
+    heart_rate_bpm = Column(Integer, nullable=True)
+    blood_pressure_systolic = Column(Integer, nullable=True)
+    blood_pressure_diastolic = Column(Integer, nullable=True)
+    blood_sugar_mg_dl = Column(Integer, nullable=True)
     mood = Column(String, nullable=True)
     notes = Column(Text, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -237,3 +241,155 @@ class ConsultationFeedback(Base):
 
     doctor = relationship("Doctor", back_populates="feedbacks")
     patient = relationship("User")
+
+
+# ──────────────────────────── Appointment ────────────────────────────
+class Appointment(Base):
+    __tablename__ = "appointments"
+
+    id = Column(Integer, primary_key=True, index=True)
+    patient_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    doctor_id = Column(Integer, ForeignKey("doctors.id"), nullable=False)
+    date_time = Column(DateTime, nullable=False)
+    status = Column(String, default="Scheduled") # Scheduled, Completed, Cancelled
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    patient = relationship("User")
+    doctor = relationship("Doctor")
+
+
+# ──────────────────────────── Follow-up Recommendation ────────────────────────────
+class Recommendation(Base):
+    __tablename__ = "recommendations"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    doctor_id = Column(Integer, ForeignKey("doctors.id"), nullable=True)
+    specialty = Column(String, nullable=False)
+    reason = Column(String, nullable=False)
+    due_date = Column(Date, nullable=False)
+    urgency = Column(String, default="Normal") # Normal, High
+
+    user = relationship("User")
+    doctor = relationship("Doctor")
+
+
+# ──────────────────────────── Reminder ────────────────────────────
+class Reminder(Base):
+    __tablename__ = "reminders"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    type = Column(String, nullable=False) # Appointment, Medication, Lab Test
+    details = Column(String, nullable=False)
+    time_string = Column(String, nullable=False) # e.g. "Tomorrow, 10:00 AM" or actual datetime
+    status = Column(String, default="Pending")
+
+    user = relationship("User")
+
+
+# ──────────────────────────── Waiting List ────────────────────────────
+class WaitingListEntry(Base):
+    __tablename__ = "waiting_list"
+
+    id = Column(Integer, primary_key=True, index=True)
+    patient_name = Column(String, nullable=False)
+    doctor_id = Column(Integer, ForeignKey("doctors.id"), nullable=False)
+    wait_time_mins = Column(Integer, nullable=False)
+    priority = Column(String, default="Normal") # Normal, High
+
+    doctor = relationship("Doctor")
+
+
+# ═══════════════════════ Records Hub ═══════════════════════
+
+class MedicalDocument(Base):
+    __tablename__ = "medical_documents"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    name = Column(String, nullable=False)
+    date_str = Column(String, nullable=False) # e.g. "Jul 10, 2026"
+    file_type = Column(String, nullable=False) # PDF, IMG
+    size_str = Column(String, nullable=False) # e.g. "1.2 MB"
+    
+    user = relationship("User")
+
+
+class TimelineEvent(Base):
+    __tablename__ = "timeline_events"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    date_str = Column(String, nullable=False) # e.g. "Jul 12, 2026"
+    title = Column(String, nullable=False)
+    type = Column(String, nullable=False) # Symptom, Visit, Milestone
+    description = Column(String, nullable=False)
+    icon_name = Column(String, nullable=False) # e.g. "thermometer", "heart", "activity"
+    color = Column(String, nullable=False)
+
+    user = relationship("User")
+
+
+# ═══════════════════════ Tracking Hub ═══════════════════════
+
+class Medication(Base):
+    __tablename__ = "medications"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    name = Column(String, nullable=False)
+    dose = Column(String, nullable=False)
+    schedule = Column(String, nullable=False)
+    status = Column(String, default="Pending") # Pending, Taken
+    icon = Column(String, default="💊")
+
+    user = relationship("User")
+
+class MedicationRenewal(Base):
+    __tablename__ = "medication_renewals"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    name = Column(String, nullable=False)
+    refills = Column(Integer, nullable=False)
+    next_refill = Column(String, nullable=False) # e.g. "Jul 20, 2026"
+    
+    user = relationship("User")
+
+class Notification(Base):
+    __tablename__ = "notifications"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    type = Column(String, nullable=False) # Alert, Info, Success
+    msg = Column(String, nullable=False)
+    time_str = Column(String, nullable=False)
+    read = Column(Boolean, default=False)
+    
+    user = relationship("User")
+
+class SymptomLog(Base):
+    __tablename__ = "symptom_logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    date_str = Column(String, nullable=False)
+    time_str = Column(String, nullable=False)
+    symptom = Column(String, nullable=False)
+    severity = Column(String, nullable=False) # Mild, Moderate, Severe
+    notes = Column(Text, nullable=True)
+
+    user = relationship("User")
+
+class Vaccination(Base):
+    __tablename__ = "vaccinations"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    name = Column(String, nullable=False)
+    date_str = Column(String, nullable=False)
+    status = Column(String, nullable=False) # Upcoming, Completed
+    patient_name = Column(String, nullable=False)
+
+    user = relationship("User")

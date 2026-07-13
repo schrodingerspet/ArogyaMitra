@@ -1,3 +1,0 @@
-source: ./backend/.env.example
-kind: object
-purpose: .env.example file in backend

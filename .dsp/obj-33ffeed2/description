@@ -1,3 +1,0 @@
-source: ./backend/app/services/youtube_service.py
-kind: object
-purpose: youtube_service.py file in services

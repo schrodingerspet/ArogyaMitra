@@ -2,12 +2,10 @@ import { motion } from "framer-motion";
 import { FiPlus, FiFrown, FiMeh, FiSmile } from "react-icons/fi";
 import { Card } from "../../components/ui";
 import TrackingTabs from "./TrackingTabs";
+import { useSymptoms } from "../../features/tracking/hooks/useTrackingQueries";
 
 export default function SymptomJournal() {
-  const symptoms = [
-    { date: "Jul 13, 2026", time: "10:30 AM", symptom: "Headache", severity: "Mild", notes: "Felt a dull ache after screen time." },
-    { date: "Jul 11, 2026", time: "08:00 PM", symptom: "Joint Pain", severity: "Moderate", notes: "Knee pain after evening run." }
-  ];
+  const { data: symptoms = [] } = useSymptoms();
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
@@ -23,7 +21,7 @@ export default function SymptomJournal() {
       </div>
 
       <div className="grid gap-4">
-        {symptoms.map((log, i) => (
+        {symptoms.map((log: any, i: number) => (
           <Card key={i} className="p-4 glass-subtle relative overflow-hidden" style={{ borderLeft: log.severity === "Moderate" ? "4px solid var(--color-warning)" : "4px solid var(--color-success)" }}>
              <div className="flex justify-between items-start">
                <div>

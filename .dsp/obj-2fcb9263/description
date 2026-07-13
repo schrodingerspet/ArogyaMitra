@@ -1,3 +1,0 @@
-source: ./frontend/package.json
-kind: object
-purpose: package.json file in frontend

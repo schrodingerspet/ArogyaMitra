@@ -1,3 +1,0 @@
-source: ./frontend/src/components/ProtectedRoute.tsx
-kind: object
-purpose: ProtectedRoute.tsx file in components

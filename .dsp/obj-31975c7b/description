@@ -1,3 +1,0 @@
-source: ./frontend/src/api/axios.ts
-kind: object
-purpose: axios.ts file in api

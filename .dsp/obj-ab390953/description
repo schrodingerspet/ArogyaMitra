@@ -1,3 +1,0 @@
-source: ./backend/app/routers/health.py
-kind: object
-purpose: health.py file in routers

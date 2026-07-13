@@ -1,3 +1,0 @@
-source: ./backend/app/routers/chat.py
-kind: object
-purpose: chat.py file in routers

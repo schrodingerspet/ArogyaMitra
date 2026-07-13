@@ -1,3 +1,0 @@
-source: ./frontend/src/services/api.ts
-kind: object
-purpose: Frontend API client configuration

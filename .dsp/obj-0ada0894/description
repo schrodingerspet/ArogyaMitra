@@ -1,3 +1,0 @@
-source: ./frontend/src/components/Layout.tsx
-kind: object
-purpose: Core layout wrapper with sidebar and topbar

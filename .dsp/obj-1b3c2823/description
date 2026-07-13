@@ -1,3 +1,0 @@
-source: ./backend/app/services/groq_service.py
-kind: object
-purpose: groq_service.py file in services

@@ -1,7 +1,9 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FiArrowRight } from "react-icons/fi";
 import { Card } from "../../components/ui";
 import AnalyticsTabs from "./AnalyticsTabs";
+import { useAnalyticsReportDates, useAnalyticsReport } from "../../features/analytics/hooks/useAnalyticsQueries";
 
 function MetricRow({ label, oldVal, newVal, unit, betterIs }: any) {
   const diff = newVal - oldVal;
@@ -22,6 +24,19 @@ function MetricRow({ label, oldVal, newVal, unit, betterIs }: any) {
 }
 
 export default function ReportCompare() {
+  const { availableDates, isLoading: datesLoading } = useAnalyticsReportDates();
+  const [baseDate, setBaseDate] = useState("");
+  const [recentDate, setRecentDate] = useState("");
+
+  useEffect(() => {
+    if (availableDates.length > 0 && !baseDate && !recentDate) {
+      setBaseDate(availableDates[0]);
+      setRecentDate(availableDates[availableDates.length - 1]);
+    }
+  }, [availableDates, baseDate, recentDate]);
+
+  const { data, isLoading } = useAnalyticsReport(baseDate, recentDate);
+
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
       <AnalyticsTabs />
@@ -34,14 +49,27 @@ export default function ReportCompare() {
 
       <Card className="p-6 glass-subtle">
         <div className="flex flex-col sm:flex-row items-center gap-4 mb-6">
-          <select className="input flex-1 w-full p-2 rounded-xl" defaultValue="2026-06-01" style={{ background: "var(--surface-1)", border: "1px solid var(--border-subtle)", color: "var(--text-1)" }}>
-             <option value="2026-06-01">June 1, 2026 (Baseline)</option>
+          <select 
+            className="input flex-1 w-full p-2 rounded-xl" 
+            value={baseDate}
+            onChange={(e) => setBaseDate(e.target.value)}
+            disabled={datesLoading || !availableDates.length}
+            style={{ background: "var(--surface-1)", border: "1px solid var(--border-subtle)", color: "var(--text-1)" }}
+          >
+             {availableDates.map((d: string) => <option key={d} value={d}>{d}</option>)}
+             {!availableDates.length && <option value="">No dates available</option>}
           </select>
           <span style={{ color: "var(--text-3)" }}>vs</span>
-          <select className="input flex-1 w-full p-2 rounded-xl" defaultValue="2026-07-01" style={{ background: "var(--surface-1)", border: "1px solid var(--border-subtle)", color: "var(--text-1)" }}>
-             <option value="2026-07-01">July 1, 2026 (Recent)</option>
+          <select 
+            className="input flex-1 w-full p-2 rounded-xl" 
+            value={recentDate}
+            onChange={(e) => setRecentDate(e.target.value)}
+            disabled={datesLoading || !availableDates.length}
+            style={{ background: "var(--surface-1)", border: "1px solid var(--border-subtle)", color: "var(--text-1)" }}
+          >
+             {availableDates.map((d: string) => <option key={d} value={d}>{d}</option>)}
+             {!availableDates.length && <option value="">No dates available</option>}
           </select>
-          <button className="btn btn-primary px-4 py-2 rounded-xl text-sm w-full sm:w-auto">Compare</button>
         </div>
 
         <div className="rounded-xl p-4 border" style={{ background: "var(--surface-1)", borderColor: "var(--border-subtle)" }}>
@@ -53,10 +81,15 @@ export default function ReportCompare() {
             <span className="text-xs uppercase font-bold text-right" style={{ color: "var(--text-3)", width: "20%" }}>Change</span>
           </div>
           
-          <MetricRow label="Weight" oldVal={82.5} newVal={79.2} unit="kg" betterIs="lower" />
-          <MetricRow label="Blood Sugar" oldVal={105} newVal={95} unit="mg/dL" betterIs="lower" />
-          <MetricRow label="Heart Rate" oldVal={76} newVal={72} unit="bpm" betterIs="lower" />
-          <MetricRow label="VO2 Max" oldVal={38.5} newVal={41.2} unit="mL/kg" betterIs="higher" />
+          {isLoading ? (
+            <div className="text-sm text-center py-4" style={{ color: "var(--text-3)" }}>Loading comparison...</div>
+          ) : data?.metrics?.length ? (
+            data.metrics.map((m: any, i: number) => (
+              <MetricRow key={i} label={m.label} oldVal={m.old_val} newVal={m.new_val} unit={m.unit} betterIs={m.better_is} />
+            ))
+          ) : (
+             <div className="text-sm text-center py-4" style={{ color: "var(--text-3)" }}>No matching data found for the selected dates.</div>
+          )}
         </div>
       </Card>
     </motion.div>

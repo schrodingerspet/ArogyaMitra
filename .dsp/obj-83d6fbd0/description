@@ -1,3 +1,0 @@
-source: ./backend/app/config/.gitkeep
-kind: object
-purpose: .gitkeep file in config

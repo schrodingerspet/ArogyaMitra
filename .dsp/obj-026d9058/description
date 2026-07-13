@@ -1,3 +1,0 @@
-source: ./frontend/cypress.config.js
-kind: object
-purpose: cypress.config.js file in frontend

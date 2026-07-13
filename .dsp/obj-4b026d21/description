@@ -1,3 +1,0 @@
-source: ./frontend/src/api/analytics.ts
-kind: object
-purpose: analytics.ts file in api

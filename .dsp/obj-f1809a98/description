@@ -1,3 +1,0 @@
-source: ./backend/app/routers/protected.py
-kind: object
-purpose: protected.py file in routers

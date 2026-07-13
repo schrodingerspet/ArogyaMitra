@@ -2,13 +2,10 @@ import { motion } from "framer-motion";
 import { FiFileText, FiShare2, FiDownload, FiFolder } from "react-icons/fi";
 import { Card } from "../../components/ui";
 import RecordsTabs from "./RecordsTabs";
+import { useDocuments } from "../../features/records/hooks/useRecordsQueries";
 
 export default function DocumentOrganizer() {
-  const documents = [
-    { name: "Blood Test Results - July", date: "Jul 10, 2026", type: "PDF", size: "1.2 MB" },
-    { name: "Cardiology Referral", date: "Jun 28, 2026", type: "PDF", size: "0.8 MB" },
-    { name: "Vaccination Certificate", date: "May 15, 2026", type: "IMG", size: "2.4 MB" },
-  ];
+  const { data: documents = [] } = useDocuments();
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
@@ -24,7 +21,7 @@ export default function DocumentOrganizer() {
       </div>
 
       <div className="grid gap-4">
-        {documents.map((doc, i) => (
+        {documents.map((doc: any, i: number) => (
           <Card key={i} className="p-4 glass-subtle flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-4">
                <div className="w-12 h-12 rounded-xl flex items-center justify-center text-lg" style={{ background: "var(--surface-2)", color: "var(--accent)" }}>

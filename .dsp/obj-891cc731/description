@@ -1,3 +1,0 @@
-source: ./backend/requirements.txt
-kind: object
-purpose: requirements.txt file in backend

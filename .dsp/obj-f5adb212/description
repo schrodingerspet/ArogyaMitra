@@ -1,3 +1,0 @@
-source: ./backend/app/database.py
-kind: object
-purpose: database.py file in app

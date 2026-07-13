@@ -1,3 +1,0 @@
-source: ./backend/app/schemas/.gitkeep
-kind: object
-purpose: .gitkeep file in schemas

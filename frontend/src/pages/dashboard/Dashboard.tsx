@@ -148,13 +148,13 @@ export default function Dashboard() {
   const reducedMotion = useReducedMotion();
 
   const daily = useMemo(() => weekly?.daily_breakdown || [], [weekly]);
-  const sparkCalories = useMemo(() => (daily.length ? daily.map((d) => d.calories_burned || 0) : [4, 6, 8, 5, 9, 7, 10]), [daily]);
-  const sparkWorkouts = useMemo(() => (daily.length ? daily.map((d) => d.workouts_completed || 0) : [1, 1, 2, 1, 0, 2, 1]), [daily]);
+  const sparkCalories = useMemo(() => (daily.length ? daily.map((d: any) => d.calories_burned || 0) : []), [daily]);
+  const sparkWorkouts = useMemo(() => (daily.length ? daily.map((d: any) => d.workouts_completed || 0) : []), [daily]);
   const sparkWeight = useMemo(() => {
     const base = Number(summary?.current_weight) || 0;
-    return base ? [base - 0.7, base - 0.4, base - 0.5, base - 0.2, base - 0.1, base] : [55, 55.2, 55.1, 55.4, 55.6, 55.7];
+    return base ? [base - 0.7, base - 0.4, base - 0.5, base - 0.2, base - 0.1, base] : [];
   }, [summary?.current_weight]);
-  const sparkStreak = useMemo(() => [1, 2, 3, 4, 4, 5, streak?.current_streak ?? 0], [streak?.current_streak]);
+  const sparkStreak = useMemo(() => (streak?.current_streak ? [streak.current_streak] : []), [streak?.current_streak]);
 
   const container = {
     hidden: {},

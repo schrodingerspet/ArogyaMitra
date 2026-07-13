@@ -1,3 +1,0 @@
-source: ./backend/app/utils/.gitkeep
-kind: object
-purpose: .gitkeep file in utils

@@ -1,3 +1,0 @@
-source: ./frontend/.env.example
-kind: object
-purpose: .env.example file in frontend

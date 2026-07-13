@@ -2,13 +2,10 @@ import { motion } from "framer-motion";
 import { FiUsers, FiClock, FiAlertCircle } from "react-icons/fi";
 import { Card } from "../../components/ui";
 import AppointmentsTabs from "./AppointmentsTabs";
+import { useWaitingList } from "../../features/appointments/useAppointmentsQueries";
 
 export default function WaitingList() {
-  const waitingPatients = [
-    { name: "John Doe", doctor: "Dr. Smith", waitTime: "45 mins", priority: "High" },
-    { name: "Jane Roe", doctor: "Dr. Smith", waitTime: "20 mins", priority: "Normal" },
-    { name: "Mike Tyson", doctor: "Dr. Adams", waitTime: "5 mins", priority: "Normal" },
-  ];
+  const { data: waitingPatients = [] } = useWaitingList();
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
@@ -21,7 +18,7 @@ export default function WaitingList() {
       </div>
 
       <div className="grid gap-4">
-        {waitingPatients.map((patient, i) => (
+        {waitingPatients.map((patient: any, i: number) => (
           <Card key={i} className="p-4 glass-subtle flex items-center justify-between">
             <div className="flex items-center gap-4">
                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "var(--surface-2)", color: "var(--text-1)" }}>

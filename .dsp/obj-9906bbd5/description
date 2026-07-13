@@ -1,3 +1,0 @@
-source: ./backend/app/routers/workouts.py
-kind: object
-purpose: workouts.py file in routers

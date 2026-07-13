@@ -1,3 +1,0 @@
-source: ./frontend/src/lib/query/queryClient.ts
-kind: object
-purpose: queryClient.ts file in query

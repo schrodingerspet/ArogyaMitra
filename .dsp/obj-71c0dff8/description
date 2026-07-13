@@ -1,3 +1,0 @@
-source: ./backend/app/routers/admin.py
-kind: object
-purpose: admin.py file in routers

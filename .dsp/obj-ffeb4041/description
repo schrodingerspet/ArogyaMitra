@@ -1,3 +1,0 @@
-source: ./frontend/tsconfig.node.json
-kind: object
-purpose: tsconfig.node.json file in frontend

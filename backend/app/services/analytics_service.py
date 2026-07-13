@@ -151,6 +151,119 @@ class AnalyticsService:
         }
 
 
+    @staticmethod
+    def get_health_metrics(user_id: int, db: Session) -> dict:
+        week_ago = date.today() - timedelta(days=7)
+        records = (
+            db.query(ProgressRecord)
+            .filter(ProgressRecord.owner_id == user_id, ProgressRecord.date >= week_ago)
+            .order_by(ProgressRecord.date)
+            .all()
+        )
+        
+        user = db.query(User).filter(User.id == user_id).first()
+        height_m = (user.height_cm / 100) if user and user.height_cm else None
+
+        metrics = {
+            "heart_rate": [],
+            "blood_pressure_systolic": [],
+            "blood_sugar": [],
+            "bmi": []
+        }
+        
+        for r in records:
+            if r.heart_rate_bpm:
+                metrics["heart_rate"].append({"date": r.date, "value": r.heart_rate_bpm})
+            if r.blood_pressure_systolic:
+                metrics["blood_pressure_systolic"].append({"date": r.date, "value": r.blood_pressure_systolic})
+            if r.blood_sugar_mg_dl:
+                metrics["blood_sugar"].append({"date": r.date, "value": r.blood_sugar_mg_dl})
+            if height_m and r.weight_kg:
+                bmi = round(r.weight_kg / (height_m * height_m), 1)
+                metrics["bmi"].append({"date": r.date, "value": bmi})
+                
+        return metrics
+
+    @staticmethod
+    def get_insights(user_id: int, db: Session) -> dict:
+        week_ago = date.today() - timedelta(days=7)
+        records = (
+            db.query(ProgressRecord)
+            .filter(ProgressRecord.owner_id == user_id, ProgressRecord.date >= week_ago)
+            .all()
+        )
+        
+        if not records:
+            return {
+                "summary": "We don't have enough data yet. Start logging your progress!",
+                "positive_trends": [],
+                "improvement_areas": []
+            }
+            
+        workouts = sum(r.workouts_completed or 0 for r in records)
+        water = sum(r.water_intake_liters or 0 for r in records) / len(records) if records else 0
+        
+        summary = f"Based on your data this week, you completed {workouts} workouts."
+        positive_trends = []
+        improvement_areas = []
+        
+        if workouts >= 3:
+            positive_trends.append("Consistent workout schedule maintained.")
+            summary += " Great job staying active!"
+        else:
+            improvement_areas.append("Try to fit in a few more workouts next week.")
+            
+        if water < 2.0:
+            improvement_areas.append(f"Hydration is below target (avg {round(water, 1)}L/day).")
+        else:
+            positive_trends.append(f"Good hydration (avg {round(water, 1)}L/day).")
+            
+        return {
+            "summary": summary,
+            "positive_trends": positive_trends,
+            "improvement_areas": improvement_areas
+        }
+
+    @staticmethod
+    def get_report_comparison(user_id: int, base_date: date, recent_date: date, db: Session) -> dict:
+        base_record = db.query(ProgressRecord).filter(ProgressRecord.owner_id == user_id, ProgressRecord.date == base_date).first()
+        recent_record = db.query(ProgressRecord).filter(ProgressRecord.owner_id == user_id, ProgressRecord.date == recent_date).first()
+        
+        metrics = []
+        
+        if base_record and recent_record:
+            if base_record.weight_kg and recent_record.weight_kg:
+                metrics.append({
+                    "label": "Weight",
+                    "old_val": base_record.weight_kg,
+                    "new_val": recent_record.weight_kg,
+                    "unit": "kg",
+                    "better_is": "lower"
+                })
+            if base_record.blood_sugar_mg_dl and recent_record.blood_sugar_mg_dl:
+                metrics.append({
+                    "label": "Blood Sugar",
+                    "old_val": base_record.blood_sugar_mg_dl,
+                    "new_val": recent_record.blood_sugar_mg_dl,
+                    "unit": "mg/dL",
+                    "better_is": "lower"
+                })
+            if base_record.heart_rate_bpm and recent_record.heart_rate_bpm:
+                metrics.append({
+                    "label": "Heart Rate",
+                    "old_val": base_record.heart_rate_bpm,
+                    "new_val": recent_record.heart_rate_bpm,
+                    "unit": "bpm",
+                    "better_is": "lower"
+                })
+                
+        return {
+            "base_date": base_date,
+            "recent_date": recent_date,
+            "metrics": metrics
+        }
+
+
 def _count_moods(records) -> dict:
     moods = {}
     for r in records:

@@ -35,3 +35,10 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+
+# DSP and Project scaffolding
+.dsp/
+bootstrap_dsp.py
+dsp-cli.py
+files.txt
+project.faf

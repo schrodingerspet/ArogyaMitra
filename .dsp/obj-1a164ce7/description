@@ -1,3 +1,0 @@
-source: ./backend/app/routers/progress.py
-kind: object
-purpose: progress.py file in routers

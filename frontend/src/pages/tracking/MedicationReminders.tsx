@@ -2,16 +2,11 @@ import { motion } from "framer-motion";
 import { FiClock, FiAlertCircle, FiRefreshCw } from "react-icons/fi";
 import { Card } from "../../components/ui";
 import TrackingTabs from "./TrackingTabs";
+import { useMedicationsData } from "../../features/tracking/hooks/useTrackingQueries";
 
 export default function MedicationReminders() {
-  const medications = [
-    { name: "Amoxicillin", dose: "500mg", schedule: "Twice daily (After meals)", status: "Pending", icon: "💊" },
-    { name: "Vitamin D3", dose: "1000 IU", schedule: "Once daily (Morning)", status: "Taken", icon: "💊" }
-  ];
-
-  const renewals = [
-    { name: "Lisinopril", refills: 1, nextRefill: "Jul 20, 2026" }
-  ];
+  const { data = { medications: [], renewals: [] } } = useMedicationsData();
+  const { medications, renewals } = data;
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
@@ -26,7 +21,7 @@ export default function MedicationReminders() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-4">
           <h3 className="font-medium text-sm" style={{ color: "var(--text-2)" }}>Today's Schedule</h3>
-          {medications.map((med, i) => (
+          {medications.map((med: any, i: number) => (
             <Card key={i} className="p-4 glass-subtle flex items-center justify-between">
               <div className="flex items-center gap-3">
                  <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style={{ background: "var(--surface-2)" }}>{med.icon}</div>
@@ -47,7 +42,7 @@ export default function MedicationReminders() {
           <h3 className="font-medium text-sm flex items-center gap-2" style={{ color: "var(--color-warning)" }}>
             <FiAlertCircle /> Needs Renewal Soon
           </h3>
-          {renewals.map((ren, i) => (
+          {renewals.map((ren: any, i: number) => (
             <Card key={i} className="p-4 relative overflow-hidden" style={{ background: "var(--color-warning-dim, rgba(245,158,11,0.05))", border: "1px solid var(--color-warning)" }}>
               <h4 className="font-bold text-sm" style={{ color: "var(--text-1)" }}>{ren.name}</h4>
               <p className="text-xs mt-1" style={{ color: "var(--text-3)" }}>Refills Remaining: <strong style={{ color: "var(--text-1)" }}>{ren.refills}</strong></p>

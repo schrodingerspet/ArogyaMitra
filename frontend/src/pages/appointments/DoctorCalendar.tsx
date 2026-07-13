@@ -4,6 +4,7 @@ import { FiCalendar, FiClock, FiUserCheck, FiStar, FiAward, FiX } from "react-ic
 import { Card } from "../../components/ui";
 import AppointmentsTabs from "./AppointmentsTabs";
 import { useDoctors, useSubmitFeedback, useDoctor } from "../../features/appointments/useDoctorsQueries";
+import { useAvailableSlots } from "../../features/appointments/useAppointmentsQueries";
 
 export default function DoctorCalendar() {
   const { data: doctors = [], isLoading: isLoadingDocs } = useDoctors();
@@ -18,16 +19,7 @@ export default function DoctorCalendar() {
   const activeDocId = selectedDoctorId || (doctors.length > 0 ? doctors[0].id : null);
   const { data: activeDoctor } = useDoctor(activeDocId || 0);
 
-  const timeSlots = [
-    { time: "09:00 AM", status: "available" },
-    { time: "09:30 AM", status: "booked" },
-    { time: "10:00 AM", status: "available" },
-    { time: "10:30 AM", status: "available" },
-    { time: "11:00 AM", status: "break" },
-    { time: "11:30 AM", status: "booked" },
-    { time: "12:00 PM", status: "available" },
-    { time: "12:30 PM", status: "booked" },
-  ];
+  const { data: timeSlots = [] } = useAvailableSlots(activeDocId);
 
   const handleFeedbackSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,7 +90,7 @@ export default function DoctorCalendar() {
 
           <h4 className="font-medium text-sm mb-4" style={{ color: "var(--text-2)" }}>Available Slots</h4>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {timeSlots.map((slot, i) => {
+            {timeSlots.map((slot: any, i: number) => {
               const isAvailable = slot.status === "available";
               return (
                 <button 

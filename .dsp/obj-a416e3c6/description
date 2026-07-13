@@ -1,3 +1,0 @@
-source: ./frontend/.storybook/main.js
-kind: object
-purpose: main.js file in .storybook

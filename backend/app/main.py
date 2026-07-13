@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from .database import Base, engine
-from .routers import auth, protected, workouts, nutrition, progress, health, calendar, admin, chat, analytics, services, doctors
+from .routers import auth, protected, workouts, nutrition, progress, health, calendar, admin, chat, analytics, services, doctors, appointments, records, tracking
 
 app = FastAPI(title="ArogyaMitra API")
 
@@ -40,6 +40,9 @@ app.include_router(chat.router)
 app.include_router(analytics.router)
 app.include_router(services.router)
 app.include_router(doctors.router)
+app.include_router(appointments.router)
+app.include_router(records.router)
+app.include_router(tracking.router)
 
 
 @app.get("/")

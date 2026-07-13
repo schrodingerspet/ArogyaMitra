@@ -1,3 +1,0 @@
-source: ./backend/app/routers/calendar.py
-kind: object
-purpose: calendar.py file in routers

@@ -1,3 +1,0 @@
-source: ./backend/app/main.py
-kind: object
-purpose: FastAPI backend entrypoint

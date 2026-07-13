@@ -1,3 +1,0 @@
-source: ./frontend/src/pages/workouts/WorkoutDetail.tsx
-kind: object
-purpose: WorkoutDetail.tsx file in workouts

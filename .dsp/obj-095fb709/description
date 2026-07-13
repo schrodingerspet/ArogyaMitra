@@ -1,3 +1,0 @@
-source: ./frontend/tailwind.config.ts
-kind: object
-purpose: Tailwind configuration matching UI_HANDOFF

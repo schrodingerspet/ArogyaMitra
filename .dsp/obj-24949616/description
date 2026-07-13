@@ -1,3 +1,0 @@
-source: ./frontend/src/pages/dashboard/Dashboard.tsx
-kind: object
-purpose: Main dashboard view

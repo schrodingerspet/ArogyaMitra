@@ -255,6 +255,10 @@ class ProgressRecordCreate(BaseModel):
     steps: Optional[int] = None
     water_intake_liters: Optional[float] = None
     sleep_hours: Optional[float] = None
+    heart_rate_bpm: Optional[int] = None
+    blood_pressure_systolic: Optional[int] = None
+    blood_pressure_diastolic: Optional[int] = None
+    blood_sugar_mg_dl: Optional[int] = None
     mood: Optional[str] = None
     notes: Optional[str] = None
 
@@ -270,6 +274,10 @@ class ProgressRecordResponse(BaseModel):
     steps: Optional[int] = None
     water_intake_liters: Optional[float] = None
     sleep_hours: Optional[float] = None
+    heart_rate_bpm: Optional[int] = None
+    blood_pressure_systolic: Optional[int] = None
+    blood_pressure_diastolic: Optional[int] = None
+    blood_sugar_mg_dl: Optional[int] = None
     mood: Optional[str] = None
     notes: Optional[str] = None
     created_at: Optional[datetime] = None
@@ -381,6 +389,157 @@ class DoctorResponse(BaseModel):
     average_rating: Optional[float] = None
     review_count: Optional[int] = None
     feedbacks: List[ConsultationFeedbackResponse] = []
+
+    class Config:
+        from_attributes = True
+
+
+# ═══════════════════════ Analytics ═══════════════════════
+
+class MetricTrend(BaseModel):
+    date: date
+    value: float
+
+class AnalyticsMetricsResponse(BaseModel):
+    heart_rate: List[MetricTrend] = []
+    blood_pressure_systolic: List[MetricTrend] = []
+    blood_sugar: List[MetricTrend] = []
+    bmi: List[MetricTrend] = []
+    
+class AnalyticsInsightResponse(BaseModel):
+    summary: str
+    positive_trends: List[str] = []
+    improvement_areas: List[str] = []
+
+class ReportComparisonItem(BaseModel):
+    label: str
+    old_val: float
+    new_val: float
+    unit: str
+    better_is: str # "higher" | "lower"
+
+class ReportComparisonResponse(BaseModel):
+    base_date: date
+    recent_date: date
+    metrics: List[ReportComparisonItem] = []
+
+
+# ═══════════════════════ Appointments Hub ═══════════════════════
+
+class TimeSlotResponse(BaseModel):
+    time: str
+    status: str # available, booked, break
+
+class RecommendationResponse(BaseModel):
+    id: int
+    doctor: str
+    specialty: str
+    reason: str
+    dueDate: str
+    urgency: str
+
+    class Config:
+        from_attributes = True
+
+class ReminderResponse(BaseModel):
+    id: int
+    type: str
+    details: str
+    time: str
+    status: str
+
+    class Config:
+        from_attributes = True
+
+class WaitingListEntryResponse(BaseModel):
+    id: int
+    name: str
+    doctor: str
+    waitTime: str
+    priority: str
+
+    class Config:
+        from_attributes = True
+
+
+# ═══════════════════════ Records Hub ═══════════════════════
+
+class MedicalDocumentResponse(BaseModel):
+    id: int
+    name: str
+    date: str
+    type: str
+    size: str
+
+    class Config:
+        from_attributes = True
+
+class TimelineEventResponse(BaseModel):
+    id: int
+    date: str
+    title: str
+    type: str
+    desc: str
+    icon: str
+    color: str
+
+    class Config:
+        from_attributes = True
+
+
+# ═══════════════════════ Tracking Hub ═══════════════════════
+
+class MedicationResponse(BaseModel):
+    id: int
+    name: str
+    dose: str
+    schedule: str
+    status: str
+    icon: str
+
+    class Config:
+        from_attributes = True
+
+class MedicationRenewalResponse(BaseModel):
+    id: int
+    name: str
+    refills: int
+    nextRefill: str
+
+    class Config:
+        from_attributes = True
+
+class MedicationsDataResponse(BaseModel):
+    medications: List[MedicationResponse]
+    renewals: List[MedicationRenewalResponse]
+
+class NotificationResponse(BaseModel):
+    id: int
+    type: str
+    msg: str
+    time: str
+    read: bool
+
+    class Config:
+        from_attributes = True
+
+class SymptomLogResponse(BaseModel):
+    id: int
+    date: str
+    time: str
+    symptom: str
+    severity: str
+    notes: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+class VaccinationResponse(BaseModel):
+    id: int
+    name: str
+    date: str
+    status: str
+    for_patient: str
 
     class Config:
         from_attributes = True

@@ -3,7 +3,11 @@ import { FiCpu, FiStar, FiTrendingUp } from "react-icons/fi";
 import { Card } from "../../components/ui";
 import AnalyticsTabs from "./AnalyticsTabs";
 
+import { useAnalyticsInsights } from "../../features/analytics/hooks/useAnalyticsQueries";
+
 export default function InsightsDashboard() {
+  const { data, isLoading } = useAnalyticsInsights();
+
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
       <AnalyticsTabs />
@@ -19,7 +23,7 @@ export default function InsightsDashboard() {
           <div>
             <h3 className="text-lg font-semibold" style={{ color: "var(--text-1)" }}>Weekly AI Summary</h3>
             <p className="text-sm mt-2 leading-relaxed" style={{ color: "var(--text-2)" }}>
-              Based on your data this week, your average resting heart rate has improved by 2 bpm, correlating with your 3 recent cardio workouts. Your sleep patterns remain consistent, but increasing water intake could further boost your recovery. Keep up the great work!
+              {isLoading ? "Generating insights..." : data?.summary || "No insights available for this period."}
             </p>
           </div>
         </div>
@@ -31,9 +35,9 @@ export default function InsightsDashboard() {
              <FiTrendingUp style={{ color: "var(--color-success)" }} /> Positive Trends
            </h4>
            <ul className="mt-4 space-y-2 text-sm" style={{ color: "var(--text-2)" }}>
-             <li>• Resting heart rate decreased by 3%</li>
-             <li>• Weekly calorie burn exceeded goal by 15%</li>
-             <li>• Consistent sleep schedule maintained for 5 days</li>
+             {data?.positive_trends?.length ? data.positive_trends.map((pt: string, i: number) => (
+               <li key={i}>• {pt}</li>
+             )) : <li>• Not enough data to spot trends</li>}
            </ul>
         </Card>
         <Card className="glass-subtle p-5">
@@ -41,8 +45,9 @@ export default function InsightsDashboard() {
              <FiStar style={{ color: "var(--color-warning)" }} /> Areas for Improvement
            </h4>
            <ul className="mt-4 space-y-2 text-sm" style={{ color: "var(--text-2)" }}>
-             <li>• Hydration levels are below target (avg 1.5L/day)</li>
-             <li>• Protein intake varied heavily across the week</li>
+             {data?.improvement_areas?.length ? data.improvement_areas.map((ia: string, i: number) => (
+               <li key={i}>• {ia}</li>
+             )) : <li>• No critical areas identified right now</li>}
            </ul>
         </Card>
       </div>

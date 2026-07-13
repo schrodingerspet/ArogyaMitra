@@ -1,3 +1,0 @@
-source: ./frontend/src/stores/workoutStore.ts
-kind: object
-purpose: workoutStore.ts file in stores
