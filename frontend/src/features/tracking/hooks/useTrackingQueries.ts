@@ -4,7 +4,7 @@ import {
   fetchNotifications, 
   fetchSymptoms, 
   fetchVaccinations 
-} from "../../api/tracking";
+} from "../../../api/tracking";
 
 export const useMedicationsData = () => {
   return useQuery({

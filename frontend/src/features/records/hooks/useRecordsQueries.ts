@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchDocuments, fetchTimeline } from "../../api/records";
+import { fetchDocuments, fetchTimeline } from "../../../api/records";
 
 export const useDocuments = () => {
   return useQuery({
