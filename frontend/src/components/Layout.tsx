@@ -16,6 +16,10 @@ const routeMeta = {
   "/health": { title: "Health Assessment", crumbs: [] },
   "/progress": { title: "Progress", crumbs: [] },
   "/profile": { title: "Profile", crumbs: [] },
+  "/analytics/insights": { title: "Health Insights", crumbs: [{ label: "Analytics", to: "/analytics/insights" }] },
+  "/analytics/metrics": { title: "Health Metrics", crumbs: [{ label: "Analytics", to: "/analytics/insights" }] },
+  "/analytics/goals": { title: "Goal Tracker", crumbs: [{ label: "Analytics", to: "/analytics/insights" }] },
+  "/analytics/reports": { title: "Report Compare", crumbs: [{ label: "Analytics", to: "/analytics/insights" }] },
 };
 
 const getRouteMeta = (pathname: string) => {

@@ -20,6 +20,11 @@ const Profile = lazy(() => import("./pages/profile/Profile"));
 const Contributors = lazy(() => import("./pages/contributors/Contributors"));
 const License = lazy(() => import("./pages/license/License"));
 
+const MetricsDashboard = lazy(() => import("./pages/analytics/MetricsDashboard"));
+const InsightsDashboard = lazy(() => import("./pages/analytics/InsightsDashboard"));
+const GoalTracker = lazy(() => import("./pages/analytics/GoalTracker"));
+const ReportCompare = lazy(() => import("./pages/analytics/ReportCompare"));
+
 function AppShell() {
   return (
     <div className="min-h-screen app-bg">
@@ -75,6 +80,11 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/contributors" element={<Contributors />} />
             <Route path="/license" element={<License />} />
+            
+            <Route path="/analytics/metrics" element={<MetricsDashboard />} />
+            <Route path="/analytics/insights" element={<InsightsDashboard />} />
+            <Route path="/analytics/goals" element={<GoalTracker />} />
+            <Route path="/analytics/reports" element={<ReportCompare />} />
           </Route>
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
