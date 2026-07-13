@@ -172,6 +172,23 @@ export default function Profile() {
             </div>
           </section>
 
+          <section className="space-y-4" aria-label="Preferences">
+            <h2 className="text-base font-semibold" style={{ color: "var(--text-2)" }}>Preferences & Access</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <FormField id="language" label="Preferred Language">
+                <select id="language" className="w-full px-3 py-2.5 input" defaultValue="en">
+                  <option value="en">English</option>
+                  <option value="es">Español</option>
+                  <option value="hi">हिन्दी</option>
+                  <option value="fr">Français</option>
+                </select>
+              </FormField>
+              <FormField id="caregiver" label="Caregiver Access Email" hint="Allow a family member to view your health data.">
+                <input id="caregiver" type="email" placeholder="caregiver@example.com" className="w-full px-3 py-2.5 input" />
+              </FormField>
+            </div>
+          </section>
+
           <section className="space-y-3" aria-label="Goals and optional medical context">
             <FormField id="goals" label="Goals" hint="Examples: maintenance, weight_loss, muscle_gain." error={errors.goals?.message}>
               <input id="goals" type="text" className="w-full px-3 py-2.5 input" {...register("goals")} />

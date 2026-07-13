@@ -32,6 +32,8 @@ const routeMeta = {
   "/tracking/medications": { title: "Medication Reminders", crumbs: [{ label: "Tracking", to: "/tracking/symptoms" }] },
   "/tracking/vaccinations": { title: "Vaccination Schedule", crumbs: [{ label: "Tracking", to: "/tracking/symptoms" }] },
   "/tracking/notifications": { title: "Notification Center", crumbs: [{ label: "Tracking", to: "/tracking/symptoms" }] },
+  "/services/hospitals": { title: "Hospital Finder", crumbs: [{ label: "Services", to: "/services/hospitals" }] },
+  "/services/labs": { title: "Lab Tests", crumbs: [{ label: "Services", to: "/services/hospitals" }] },
 };
 
 const getRouteMeta = (pathname: string) => {

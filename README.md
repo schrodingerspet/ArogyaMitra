@@ -1,3 +1,6 @@
+# ArogyaMitra
+
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
 <div align="center">
 
 <img src="logo.png" alt="ArogyaMitra Logo" width="120" />

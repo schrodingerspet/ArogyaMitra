@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FiActivity, FiHeart, FiHome, FiLogOut, FiTrendingUp, FiUser, FiUsers, FiFileText, FiPieChart, FiCalendar, FiFolder, FiBell } from "react-icons/fi";
+import { FiActivity, FiHeart, FiHome, FiLogOut, FiTrendingUp, FiUser, FiUsers, FiFileText, FiPieChart, FiCalendar, FiFolder, FiBell, FiMapPin } from "react-icons/fi";
 import { GiMeal } from "react-icons/gi";
 import useAuthStore from "../stores/authStore";
 
@@ -9,6 +9,7 @@ const navItems = [
   { to: "/appointments/calendar", icon: FiCalendar, label: "Appointments" },
   { to: "/records/documents", icon: FiFolder, label: "Records" },
   { to: "/tracking/symptoms", icon: FiBell, label: "Tracking" },
+  { to: "/services/hospitals", icon: FiMapPin, label: "Services" },
   { to: "/workouts", icon: FiActivity, label: "Workouts" },
   { to: "/nutrition", icon: GiMeal, label: "Nutrition" },
   { to: "/health", icon: FiHeart, label: "Health" },

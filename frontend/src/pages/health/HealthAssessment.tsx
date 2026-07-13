@@ -254,6 +254,27 @@ export default function HealthAssessment() {
             </FormField>
           </section>
 
+          <section className="space-y-4" aria-label="Health Risk Questionnaire">
+            <h3 className="text-sm font-semibold" style={{ color: "var(--text-2)" }}>Health Risk Questionnaire</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <FormField id="family_history" label="Family history of chronic diseases?">
+                <select id="family_history" className="w-full px-3 py-2.5 input" {...register("family_history")}>
+                  <option value="none">None</option>
+                  <option value="diabetes">Diabetes</option>
+                  <option value="heart_disease">Heart Disease</option>
+                  <option value="hypertension">Hypertension</option>
+                </select>
+              </FormField>
+              <FormField id="smoking_status" label="Smoking Status">
+                <select id="smoking_status" className="w-full px-3 py-2.5 input" {...register("smoking_status")}>
+                  <option value="never">Never smoked</option>
+                  <option value="former">Former smoker</option>
+                  <option value="current">Current smoker</option>
+                </select>
+              </FormField>
+            </div>
+          </section>
+
           <section className="space-y-3" aria-label="Optional medical context">
             <button
               type="button"

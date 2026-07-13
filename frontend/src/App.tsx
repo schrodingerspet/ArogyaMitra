@@ -40,6 +40,9 @@ const MedicationReminders = lazy(() => import("./pages/tracking/MedicationRemind
 const VaccinationSchedule = lazy(() => import("./pages/tracking/VaccinationSchedule"));
 const NotificationCenter = lazy(() => import("./pages/tracking/NotificationCenter"));
 
+const HospitalFinder = lazy(() => import("./pages/services/HospitalFinder"));
+const LabTestBooking = lazy(() => import("./pages/services/LabTestBooking"));
+
 function AppShell() {
   return (
     <div className="min-h-screen app-bg">
@@ -115,6 +118,9 @@ function App() {
             <Route path="/tracking/medications" element={<MedicationReminders />} />
             <Route path="/tracking/vaccinations" element={<VaccinationSchedule />} />
             <Route path="/tracking/notifications" element={<NotificationCenter />} />
+            
+            <Route path="/services/hospitals" element={<HospitalFinder />} />
+            <Route path="/services/labs" element={<LabTestBooking />} />
           </Route>
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>

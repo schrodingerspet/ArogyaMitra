@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FiCalendar, FiClock, FiUserCheck } from "react-icons/fi";
+import { FiCalendar, FiClock, FiUserCheck, FiStar, FiAward } from "react-icons/fi";
 import { Card } from "../../components/ui";
 import AppointmentsTabs from "./AppointmentsTabs";
 
@@ -31,8 +31,17 @@ export default function DoctorCalendar() {
             👨‍⚕️
           </div>
           <div>
-            <h3 className="font-semibold text-lg" style={{ color: "var(--text-1)" }}>Dr. Smith (Cardiology)</h3>
-            <p className="text-sm" style={{ color: "var(--text-3)" }}>Select a date to view availability</p>
+            <div className="flex items-center gap-2">
+              <h3 className="font-semibold text-lg" style={{ color: "var(--text-1)" }}>Dr. Smith (Cardiology)</h3>
+              <span className="flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full font-bold border" style={{ color: "var(--color-success)", borderColor: "var(--color-success)", background: "var(--color-success-dim, rgba(34,197,94,0.1))" }} title="Verified Medical Professional">
+                <FiAward /> Verified
+              </span>
+            </div>
+            <div className="flex items-center gap-3 mt-1 text-sm">
+              <span className="flex items-center gap-1 font-medium" style={{ color: "var(--color-warning)" }}><FiStar /> 4.9 <span style={{ color: "var(--text-3)", fontWeight: "normal" }}>(120 reviews)</span></span>
+              <span style={{ color: "var(--text-3)" }}>|</span>
+              <a href="#" className="underline text-xs" style={{ color: "var(--accent)" }}>Read Feedback</a>
+            </div>
           </div>
         </div>
         
