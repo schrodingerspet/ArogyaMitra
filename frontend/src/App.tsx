@@ -30,6 +30,11 @@ const WaitingList = lazy(() => import("./pages/appointments/WaitingList"));
 const SmartReminders = lazy(() => import("./pages/appointments/SmartReminders"));
 const FollowUpRecommendations = lazy(() => import("./pages/appointments/FollowUpRecommendations"));
 
+const DocumentOrganizer = lazy(() => import("./pages/records/DocumentOrganizer"));
+const HealthTimeline = lazy(() => import("./pages/records/HealthTimeline"));
+const FamilyProfiles = lazy(() => import("./pages/records/FamilyProfiles"));
+const EmergencyCard = lazy(() => import("./pages/records/EmergencyCard"));
+
 function AppShell() {
   return (
     <div className="min-h-screen app-bg">
@@ -95,6 +100,11 @@ function App() {
             <Route path="/appointments/waiting-list" element={<WaitingList />} />
             <Route path="/appointments/reminders" element={<SmartReminders />} />
             <Route path="/appointments/follow-ups" element={<FollowUpRecommendations />} />
+            
+            <Route path="/records/documents" element={<DocumentOrganizer />} />
+            <Route path="/records/timeline" element={<HealthTimeline />} />
+            <Route path="/records/family" element={<FamilyProfiles />} />
+            <Route path="/records/emergency" element={<EmergencyCard />} />
           </Route>
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
