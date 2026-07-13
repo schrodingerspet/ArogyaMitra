@@ -1,0 +1,3 @@
+source: ./render.yaml
+kind: object
+purpose: render.yaml file in .

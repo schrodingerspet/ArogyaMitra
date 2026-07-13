@@ -1,0 +1,3 @@
+source: ./frontend/src/vite-env.d.ts
+kind: object
+purpose: vite-env.d.ts file in src

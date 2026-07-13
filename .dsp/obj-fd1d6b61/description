@@ -1,0 +1,3 @@
+source: ./frontend/src/api/chat.ts
+kind: object
+purpose: chat.ts file in api

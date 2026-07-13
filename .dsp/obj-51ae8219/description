@@ -1,0 +1,3 @@
+source: ./frontend/src/features/workouts/hooks/useWorkoutQueries.ts
+kind: object
+purpose: useWorkoutQueries.ts file in hooks

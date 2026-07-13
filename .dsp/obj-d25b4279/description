@@ -1,0 +1,3 @@
+source: ./backend/app/auth/dependencies.py
+kind: object
+purpose: dependencies.py file in auth

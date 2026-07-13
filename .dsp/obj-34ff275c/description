@@ -1,0 +1,3 @@
+source: ./.github/workflows/deploy.yml
+kind: object
+purpose: deploy.yml file in workflows

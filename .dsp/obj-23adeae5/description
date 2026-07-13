@@ -1,0 +1,3 @@
+source: ./frontend/src/lib/api/contracts.ts
+kind: object
+purpose: contracts.ts file in api

@@ -1,0 +1,3 @@
+source: ./frontend/src/components/ui/PlanCard.tsx
+kind: object
+purpose: PlanCard.tsx file in ui

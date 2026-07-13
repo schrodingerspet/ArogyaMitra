@@ -1,0 +1,3 @@
+source: ./frontend/src/layouts/MainLayout.tsx
+kind: object
+purpose: Core layout wrapper with sidebar and topbar

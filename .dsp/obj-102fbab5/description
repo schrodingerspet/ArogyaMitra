@@ -1,0 +1,3 @@
+source: ./frontend/src/hooks/usePrefersReducedMotion.ts
+kind: object
+purpose: usePrefersReducedMotion.ts file in hooks

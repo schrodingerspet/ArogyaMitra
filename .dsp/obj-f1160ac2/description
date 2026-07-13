@@ -1,0 +1,3 @@
+source: ./backend/app/services/workout_service.py
+kind: object
+purpose: workout_service.py file in services

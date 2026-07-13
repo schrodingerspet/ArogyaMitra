@@ -1,0 +1,3 @@
+source: ./backend/app/services/.gitkeep
+kind: object
+purpose: .gitkeep file in services

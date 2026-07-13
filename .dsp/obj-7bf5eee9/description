@@ -1,0 +1,3 @@
+source: ./frontend/src/features/dashboard/hooks/useDashboardData.ts
+kind: object
+purpose: useDashboardData.ts file in hooks

@@ -1,0 +1,3 @@
+source: ./frontend/src/App.tsx
+kind: object
+purpose: App.tsx file in src

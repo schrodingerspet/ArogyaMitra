@@ -1,0 +1,3 @@
+source: ./backend/app/services/nutrition_service.py
+kind: object
+purpose: nutrition_service.py file in services

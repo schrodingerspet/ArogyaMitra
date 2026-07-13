@@ -1,0 +1,3 @@
+source: ./backend/app/services/__init__.py
+kind: object
+purpose: __init__.py file in services

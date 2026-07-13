@@ -1,0 +1,53 @@
+project:
+  name: ArogyaMitra
+  goal: Modern health, nutrition, and workout tracking platform with integrated AI chat
+
+stack:
+  frontend: React, TypeScript, Vite
+  state_management: Zustand (global), React Query (server state)
+  styling: Tailwind CSS, Native CSS Variables
+  backend: Python, FastAPI
+  database: SQLAlchemy ORM, Pydantic (validation)
+  deployment: Render (inferred from render.yaml)
+
+architecture:
+  pattern: Clean architecture with separated routers and services
+  backend_structure: |
+    - app/main.py: Root FastAPI application
+    - app/routers/: API endpoints separated by domain (auth, health, nutrition, analytics, chat, workouts)
+    - app/services/: Core business logic and external API integrations
+    - app/database.py & models.py: Data access layer
+  frontend_structure: |
+    - src/api/: Backend communication contracts
+    - src/components/ui/: Reusable UI components
+    - src/features/: Domain-specific hooks and logic
+    - src/layouts/: Core page wrappers
+    - src/stores/: Zustand global stores
+    - src/pages/: Route-level views
+
+design_logic:
+  theme: Dark mode by default (color-scheme: dark)
+  colors: |
+    - Base: #071226 (deep blue)
+    - Surface: #0d1420, #111b2b, #162236 (elevated layers)
+    - Accents: #00D1FF to #00A9D6 (cyan gradient), #9B5CFF (violet)
+  glassmorphism: |
+    - Heavily utilizes `.surface-frosted` with `backdrop-filter: blur(10px) saturate(120%)`
+    - Component cards use `.glass`, `.glass-subtle`, `.glass-elevated`, and `.glass-lens`
+    - Lens effect uses absolute top borders for realistic light reflection
+  layout: |
+    - 12-column responsive grid (max width 1280px)
+    - Sidebar navigation (240px expanded, 72px collapsed)
+    - Strict 24px desktop / 16px mobile gutters
+
+human_context:
+  who: Engineering Team
+  what: Full-stack responsive web application
+  why: To provide users with a premium, aesthetic, and highly functional health tracking experience
+
+ai_context:
+  dsp_enabled: true
+  rules: |
+    - Always respect the global CSS variables in index.css for UI additions
+    - Maintain the frosted glass visual language for new components
+    - Backend changes should maintain the router -> service delegation pattern

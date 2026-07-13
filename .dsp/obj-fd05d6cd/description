@@ -1,0 +1,3 @@
+source: ./frontend/src/stores/healthStore.ts
+kind: object
+purpose: healthStore.ts file in stores

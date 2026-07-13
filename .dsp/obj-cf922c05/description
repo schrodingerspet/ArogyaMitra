@@ -1,0 +1,3 @@
+source: ./backend/app/services/spoonacular_service.py
+kind: object
+purpose: spoonacular_service.py file in services

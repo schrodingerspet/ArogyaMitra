@@ -1,0 +1,3 @@
+source: ./backend/app/auth/jwt_handler.py
+kind: object
+purpose: jwt_handler.py file in auth

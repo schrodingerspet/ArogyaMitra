@@ -1,0 +1,3 @@
+source: ./backend/app/models/.gitkeep
+kind: object
+purpose: .gitkeep file in models

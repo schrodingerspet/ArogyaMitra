@@ -1,0 +1,3 @@
+source: ./frontend/src/components/ui/NavigationLayout.stories.tsx
+kind: object
+purpose: NavigationLayout.stories.tsx file in ui

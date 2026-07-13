@@ -1,0 +1,3 @@
+source: ./frontend/cypress/e2e/nav-theme.cy.js
+kind: object
+purpose: nav-theme.cy.js file in e2e

@@ -1,0 +1,3 @@
+source: ./frontend/eslint.config.js
+kind: object
+purpose: eslint.config.js file in frontend

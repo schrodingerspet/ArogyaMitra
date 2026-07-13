@@ -1,0 +1,3 @@
+source: ./frontend/src/features/index.ts
+kind: object
+purpose: index.ts file in features

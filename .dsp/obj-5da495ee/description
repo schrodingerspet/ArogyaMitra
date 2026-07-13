@@ -1,0 +1,3 @@
+source: ./backend/app/services/calendar_service.py
+kind: object
+purpose: calendar_service.py file in services

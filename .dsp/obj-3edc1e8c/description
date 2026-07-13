@@ -1,0 +1,3 @@
+source: ./frontend/src/assets/react.svg
+kind: object
+purpose: react.svg file in assets

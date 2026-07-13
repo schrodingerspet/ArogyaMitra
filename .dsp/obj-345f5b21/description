@@ -1,0 +1,3 @@
+source: ./frontend/src/stores/useAppStore.ts
+kind: object
+purpose: useAppStore.ts file in stores

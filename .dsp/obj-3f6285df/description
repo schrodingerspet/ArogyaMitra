@@ -1,0 +1,3 @@
+source: ./frontend/src/stores/nutritionStore.ts
+kind: object
+purpose: nutritionStore.ts file in stores

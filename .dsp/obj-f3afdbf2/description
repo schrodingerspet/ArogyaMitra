@@ -1,0 +1,3 @@
+source: ./backend/package-lock.json
+kind: object
+purpose: package-lock.json file in backend

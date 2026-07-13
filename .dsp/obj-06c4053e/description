@@ -1,0 +1,3 @@
+source: ./frontend/deactivate
+kind: object
+purpose: deactivate file in frontend

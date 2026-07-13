@@ -1,0 +1,3 @@
+source: ./setup.sh
+kind: object
+purpose: setup.sh file in .

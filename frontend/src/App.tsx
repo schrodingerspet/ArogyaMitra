@@ -25,6 +25,11 @@ const InsightsDashboard = lazy(() => import("./pages/analytics/InsightsDashboard
 const GoalTracker = lazy(() => import("./pages/analytics/GoalTracker"));
 const ReportCompare = lazy(() => import("./pages/analytics/ReportCompare"));
 
+const DoctorCalendar = lazy(() => import("./pages/appointments/DoctorCalendar"));
+const WaitingList = lazy(() => import("./pages/appointments/WaitingList"));
+const SmartReminders = lazy(() => import("./pages/appointments/SmartReminders"));
+const FollowUpRecommendations = lazy(() => import("./pages/appointments/FollowUpRecommendations"));
+
 function AppShell() {
   return (
     <div className="min-h-screen app-bg">
@@ -85,6 +90,11 @@ function App() {
             <Route path="/analytics/insights" element={<InsightsDashboard />} />
             <Route path="/analytics/goals" element={<GoalTracker />} />
             <Route path="/analytics/reports" element={<ReportCompare />} />
+            
+            <Route path="/appointments/calendar" element={<DoctorCalendar />} />
+            <Route path="/appointments/waiting-list" element={<WaitingList />} />
+            <Route path="/appointments/reminders" element={<SmartReminders />} />
+            <Route path="/appointments/follow-ups" element={<FollowUpRecommendations />} />
           </Route>
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>

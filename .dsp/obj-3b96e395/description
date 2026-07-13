@@ -1,0 +1,3 @@
+source: ./frontend/src/stores/progressStore.ts
+kind: object
+purpose: progressStore.ts file in stores

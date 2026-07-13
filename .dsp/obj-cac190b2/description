@@ -1,0 +1,3 @@
+source: ./frontend/src/features/health/hooks/useHealthQueries.ts
+kind: object
+purpose: useHealthQueries.ts file in hooks

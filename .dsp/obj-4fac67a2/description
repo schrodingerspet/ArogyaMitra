@@ -1,0 +1,3 @@
+source: ./backend/app/services/analytics_service.py
+kind: object
+purpose: analytics_service.py file in services
