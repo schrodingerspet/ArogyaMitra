@@ -35,6 +35,11 @@ const HealthTimeline = lazy(() => import("./pages/records/HealthTimeline"));
 const FamilyProfiles = lazy(() => import("./pages/records/FamilyProfiles"));
 const EmergencyCard = lazy(() => import("./pages/records/EmergencyCard"));
 
+const SymptomJournal = lazy(() => import("./pages/tracking/SymptomJournal"));
+const MedicationReminders = lazy(() => import("./pages/tracking/MedicationReminders"));
+const VaccinationSchedule = lazy(() => import("./pages/tracking/VaccinationSchedule"));
+const NotificationCenter = lazy(() => import("./pages/tracking/NotificationCenter"));
+
 function AppShell() {
   return (
     <div className="min-h-screen app-bg">
@@ -105,6 +110,11 @@ function App() {
             <Route path="/records/timeline" element={<HealthTimeline />} />
             <Route path="/records/family" element={<FamilyProfiles />} />
             <Route path="/records/emergency" element={<EmergencyCard />} />
+            
+            <Route path="/tracking/symptoms" element={<SymptomJournal />} />
+            <Route path="/tracking/medications" element={<MedicationReminders />} />
+            <Route path="/tracking/vaccinations" element={<VaccinationSchedule />} />
+            <Route path="/tracking/notifications" element={<NotificationCenter />} />
           </Route>
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>

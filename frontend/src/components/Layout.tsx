@@ -28,6 +28,10 @@ const routeMeta = {
   "/records/timeline": { title: "Health Timeline", crumbs: [{ label: "Records", to: "/records/documents" }] },
   "/records/family": { title: "Family Members", crumbs: [{ label: "Records", to: "/records/documents" }] },
   "/records/emergency": { title: "Emergency Card", crumbs: [{ label: "Records", to: "/records/documents" }] },
+  "/tracking/symptoms": { title: "Symptom Journal", crumbs: [{ label: "Tracking", to: "/tracking/symptoms" }] },
+  "/tracking/medications": { title: "Medication Reminders", crumbs: [{ label: "Tracking", to: "/tracking/symptoms" }] },
+  "/tracking/vaccinations": { title: "Vaccination Schedule", crumbs: [{ label: "Tracking", to: "/tracking/symptoms" }] },
+  "/tracking/notifications": { title: "Notification Center", crumbs: [{ label: "Tracking", to: "/tracking/symptoms" }] },
 };
 
 const getRouteMeta = (pathname: string) => {
