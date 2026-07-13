@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AromiChat from "./components/AromiChat";
@@ -59,7 +59,7 @@ function AppShell() {
 
 function App() {
   return (
-    <BrowserRouter basename="/ArogyaMitra">
+    <HashRouter>
       <Toaster
         position="top-right"
         toastOptions={{
@@ -126,7 +126,7 @@ function App() {
         </Routes>
       </Suspense>
       <AromiChat />
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
