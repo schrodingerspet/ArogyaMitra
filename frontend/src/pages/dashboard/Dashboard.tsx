@@ -16,6 +16,7 @@ import { GiMeal } from "react-icons/gi";
 import useAuthStore from "../../stores/authStore";
 import { ActionCard, Card, ChartCard, MetricCard } from "../../components/ui";
 import { useDashboardData } from "../../features/dashboard/hooks/useDashboardData";
+import ErrorBoundary from "../../components/ErrorBoundary";
 
 function getGreeting() {
   const h = new Date().getHours();
@@ -49,9 +50,9 @@ function WeeklyBars({ daily = [] }) {
         {daily.map((d) => {
           const v = d.calories_burned || 0;
           const h = Math.max((v / max) * 100, 6);
-          const label = new Date(d.date).toLocaleDateString("en", { weekday: "short" });
+          const label = d.date ? new Date(d.date).toLocaleDateString("en", { weekday: "short" }) : "N/A";
           return (
-            <div key={d.date} className="flex-1 flex flex-col items-center gap-2">
+            <div key={d.date || Math.random().toString()} className="flex-1 flex flex-col items-center gap-2">
               <div className="text-[11px]" style={{ color: "var(--text-3)" }}>{v}</div>
               <div className="w-full rounded-xl" style={{ height: `${h}%`, minHeight: 12, background: "linear-gradient(180deg, var(--color-accent-start), var(--color-accent-end))" }} />
               <div className="text-[11px]" style={{ color: "var(--text-4)" }}>{label}</div>
@@ -144,10 +145,10 @@ function WellnessDisclaimer() {
 
 export default function Dashboard() {
   const user = useAuthStore((s) => s.user);
-  const { summary, weekly, streak, loading } = useDashboardData();
+  const { summary, weekly, streak, loading, isError, error } = useDashboardData();
   const reducedMotion = useReducedMotion();
 
-  const daily = useMemo(() => weekly?.daily_breakdown || [], [weekly]);
+  const daily = useMemo(() => Array.isArray(weekly?.daily_breakdown) ? weekly.daily_breakdown : [], [weekly]);
   const sparkCalories = useMemo(() => (daily.length ? daily.map((d: any) => d.calories_burned || 0) : []), [daily]);
   const sparkWorkouts = useMemo(() => (daily.length ? daily.map((d: any) => d.workouts_completed || 0) : []), [daily]);
   const sparkWeight = useMemo(() => {
@@ -165,10 +166,25 @@ export default function Dashboard() {
     show: { opacity: 1, y: 0, transition: { type: "spring", damping: 20, stiffness: 220 } },
   };
 
-  if (loading && !summary) return <DashboardSkeleton />;
+  if (loading && !summary && !isError) return <DashboardSkeleton />;
+
+  if (isError) {
+    return (
+      <div className="p-6 rounded-2xl glass-subtle" style={{ border: "1px solid var(--danger-dim, rgba(239, 68, 68, 0.2))", background: "var(--danger-dim, rgba(239, 68, 68, 0.05))" }}>
+        <div className="flex items-center gap-3 mb-4" style={{ color: "var(--danger, #ef4444)" }}>
+          <FiAlertCircle size={24} />
+          <h2 className="text-lg font-bold">Failed to load dashboard</h2>
+        </div>
+        <p className="text-sm" style={{ color: "var(--text-2)" }}>
+          {error instanceof Error ? error.message : "An error occurred while fetching your dashboard data. Please try again later."}
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <motion.div initial="hidden" animate="show" variants={container} className="space-y-6">
+    <ErrorBoundary>
+      <motion.div initial="hidden" animate="show" variants={container} className="space-y-6">
       <motion.div variants={item}>
         <WellnessDisclaimer />
         <h1 style={{ color: "var(--text-1)" }}>
@@ -269,6 +285,7 @@ export default function Dashboard() {
           </Card>
         </div>
       </motion.div>
-    </motion.div>
+      </motion.div>
+    </ErrorBoundary>
   );
 }

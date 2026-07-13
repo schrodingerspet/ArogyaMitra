@@ -30,10 +30,15 @@ export function useDashboardData() {
     [summaryQuery.isLoading, weeklyQuery.isLoading, streakQuery.isLoading]
   );
 
+  const isError = summaryQuery.isError || weeklyQuery.isError || streakQuery.isError;
+  const error = summaryQuery.error || weeklyQuery.error || streakQuery.error;
+
   return {
     summary: summaryQuery.data ?? null,
     weekly: weeklyQuery.data ?? null,
     streak: streakQuery.data ?? null,
     loading,
+    isError,
+    error,
   };
 }
