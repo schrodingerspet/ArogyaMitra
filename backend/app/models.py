@@ -183,3 +183,29 @@ class ChatMessage(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
     session = relationship("ChatSession", back_populates="messages")
+
+
+# ──────────────────────────── Hospital ────────────────────────────
+class Hospital(Base):
+    __tablename__ = "hospitals"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    distance_km = Column(Float, nullable=False)
+    rating = Column(Float, nullable=False)
+    facility_type = Column(String, nullable=False)
+    contact_number = Column(String, nullable=True)
+
+
+# ──────────────────────────── Lab Test Booking ────────────────────────────
+class LabTestBooking(Base):
+    __tablename__ = "lab_test_bookings"
+
+    id = Column(Integer, primary_key=True, index=True)
+    owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    test_name = Column(String, nullable=False)
+    lab_name = Column(String, nullable=False)
+    booking_date = Column(Date, nullable=False)
+    status = Column(String, default="Scheduled")
+
+    owner = relationship("User")

@@ -316,3 +316,35 @@ class ChatSessionListResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+# ═══════════════════════ Services ═══════════════════════
+
+class HospitalResponse(BaseModel):
+    id: int
+    name: str
+    distance_km: float
+    rating: float
+    facility_type: str
+    contact_number: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+
+class LabTestBookingCreate(BaseModel):
+    test_name: str
+    lab_name: str
+    booking_date: date
+
+
+class LabTestBookingResponse(BaseModel):
+    id: int
+    owner_id: int
+    test_name: str
+    lab_name: str
+    booking_date: date
+    status: str
+
+    class Config:
+        from_attributes = True
