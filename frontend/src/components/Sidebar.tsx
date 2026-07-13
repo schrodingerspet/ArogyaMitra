@@ -2,21 +2,22 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FiActivity, FiHeart, FiHome, FiLogOut, FiTrendingUp, FiUser, FiUsers, FiFileText, FiPieChart, FiCalendar, FiFolder, FiBell, FiMapPin } from "react-icons/fi";
 import { GiMeal } from "react-icons/gi";
 import useAuthStore from "../stores/authStore";
+import { useTranslation } from "react-i18next";
 
 const navItems = [
-  { to: "/dashboard", icon: FiHome, label: "Dashboard" },
-  { to: "/analytics/insights", icon: FiPieChart, label: "Analytics" },
-  { to: "/appointments/calendar", icon: FiCalendar, label: "Appointments" },
-  { to: "/records/documents", icon: FiFolder, label: "Records" },
-  { to: "/tracking/symptoms", icon: FiBell, label: "Tracking" },
-  { to: "/services/hospitals", icon: FiMapPin, label: "Services" },
-  { to: "/workouts", icon: FiActivity, label: "Workouts" },
-  { to: "/nutrition", icon: GiMeal, label: "Nutrition" },
-  { to: "/health", icon: FiHeart, label: "Health" },
-  { to: "/progress", icon: FiTrendingUp, label: "Progress" },
-  { to: "/profile", icon: FiUser, label: "Profile" },
-  { to: "/contributors", icon: FiUsers, label: "Contributors" },
-  { to: "/license", icon: FiFileText, label: "License" },
+  { to: "/dashboard", icon: FiHome, labelKey: "Dashboard" },
+  { to: "/analytics/insights", icon: FiPieChart, labelKey: "Analytics" },
+  { to: "/appointments/calendar", icon: FiCalendar, labelKey: "Appointments" },
+  { to: "/records/documents", icon: FiFolder, labelKey: "Records" },
+  { to: "/tracking/symptoms", icon: FiBell, labelKey: "Tracking" },
+  { to: "/services/hospitals", icon: FiMapPin, labelKey: "Services" },
+  { to: "/workouts", icon: FiActivity, labelKey: "Workouts" },
+  { to: "/nutrition", icon: GiMeal, labelKey: "Nutrition" },
+  { to: "/health", icon: FiHeart, labelKey: "Health" },
+  { to: "/progress", icon: FiTrendingUp, labelKey: "Progress" },
+  { to: "/profile", icon: FiUser, labelKey: "Profile" },
+  { to: "/contributors", icon: FiUsers, labelKey: "Contributors" },
+  { to: "/license", icon: FiFileText, labelKey: "License" },
 ];
 
 function HamburgerIcon() {
@@ -111,6 +112,7 @@ export default function Sidebar({
           <nav className={`flex-1 py-3 space-y-0.5 overflow-y-auto ${compact ? "px-2" : "px-3"}`} aria-label="Sidebar">
             {navItems.map((item) => {
               const active = isActive(item.to);
+              const label = t ? t(item.labelKey) : item.labelKey;
               return (
                 <Link
                   key={item.to}
@@ -118,7 +120,7 @@ export default function Sidebar({
                   onClick={() => {
                     if (showMobileDrawer) setMobileOpen(false);
                   }}
-                  title={compact ? item.label : undefined}
+                  title={compact ? label : undefined}
                   className={`group relative flex items-center rounded-xl transition-all duration-200 focus-ring ${
                     compact ? "justify-center w-12 h-11 mx-auto" : "gap-3 px-3 py-2.5"
                   } ${
@@ -136,7 +138,7 @@ export default function Sidebar({
                     />
                   )}
                   <item.icon size={24} className="shrink-0" strokeWidth={1.6} />
-                  {showLabels && <span className="text-sm font-medium">{item.label}</span>}
+                  {showLabels && <span className="text-sm font-medium">{label}</span>}
                   {compact && (
                     <span
                       className="absolute left-full ml-3 px-2.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-[60]"
@@ -146,7 +148,7 @@ export default function Sidebar({
                         border: "1px solid var(--border-subtle)",
                       }}
                     >
-                      {item.label}
+                      {label}
                     </span>
                   )}
                 </Link>

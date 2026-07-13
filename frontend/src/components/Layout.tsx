@@ -5,6 +5,7 @@ import { FiChevronRight } from "react-icons/fi";
 import Sidebar from "./Sidebar";
 import RightUtilityPanel from "./RightUtilityPanel";
 import useAuthStore from "../stores/authStore";
+import { useTranslation } from "react-i18next";
 import { applyTheme, resolveInitialTheme } from "../lib/theme";
 
 const routeMeta = {
@@ -99,6 +100,7 @@ function BellIcon() {
 
 export default function Layout() {
   const { fetchProfile, user } = useAuthStore();
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   const [theme, setTheme] = useState(() => resolveInitialTheme());
   const [viewport, setViewport] = useState<"desktop" | "tablet" | "mobile">(getViewport);
@@ -111,6 +113,12 @@ export default function Layout() {
   useEffect(() => {
     if (!user) fetchProfile();
   }, [fetchProfile, user]);
+
+  useEffect(() => {
+    if (user?.language) {
+      i18n.changeLanguage(user.language);
+    }
+  }, [user?.language, i18n]);
 
   useEffect(() => {
     const onResize = () => setViewport(getViewport());

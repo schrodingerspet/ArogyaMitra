@@ -33,3 +33,24 @@ def get_current_user(
         raise HTTPException(status_code=401, detail="User not found")
 
     return user
+
+def get_target_user(
+    patient_id: int = None,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    RBAC Logic: If patient_id is not provided, return the current user.
+    If provided, check if it's the current user, or if current user is the caregiver.
+    """
+    if patient_id is None or patient_id == current_user.id:
+        return current_user
+        
+    target = db.query(User).filter(User.id == patient_id).first()
+    if not target:
+        raise HTTPException(status_code=404, detail="Patient not found")
+        
+    if target.caregiver_email != current_user.email:
+        raise HTTPException(status_code=403, detail="Not authorized to access this patient's data")
+        
+    return target

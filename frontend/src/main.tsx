@@ -5,6 +5,7 @@ import "./index.css";
 import App from "./App";
 import { queryClient } from "./lib/query/queryClient";
 import { initTheme } from "./lib/theme";
+import "./i18n";
 
 initTheme();
 

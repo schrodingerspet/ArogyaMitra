@@ -4,6 +4,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from ..database import get_db
 from ..models import User
+from typing import List
 from ..schemas import UserCreate, UserLogin, UserUpdate, UserResponse, Token
 from ..auth.hashing import hash_password, verify_password
 from ..auth.jwt_handler import create_access_token
@@ -62,3 +63,12 @@ def update_profile(
     db.commit()
     db.refresh(current_user)
     return current_user
+
+
+@router.get("/dependents", response_model=List[UserResponse])
+def get_dependents(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    dependents = db.query(User).filter(User.caregiver_email == current_user.email).all()
+    return dependents
