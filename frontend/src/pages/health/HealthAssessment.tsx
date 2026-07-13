@@ -28,6 +28,8 @@ const defaultValues = {
   water_intake_liters: 2,
   stress_level: "medium",
   notes: "",
+  family_history: "none",
+  smoking_status: "never",
 };
 
 function InsightCard({ icon: Icon, label, value, sub, color, formula }) {
@@ -87,6 +89,8 @@ export default function HealthAssessment() {
       medical_conditions: latest.medical_conditions || "",
       allergies: latest.allergies || "",
       notes: latest.notes || "",
+      family_history: latest.family_history || "none",
+      smoking_status: latest.smoking_status || "never",
     });
     setShowMedical(Boolean(latest.medical_conditions || latest.allergies || latest.notes));
   }, [latest, reset]);

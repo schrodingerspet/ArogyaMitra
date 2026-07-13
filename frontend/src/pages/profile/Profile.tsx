@@ -17,6 +17,8 @@ const defaults = {
   medical_conditions: "",
   allergies: "",
   activity_level: "",
+  language: "en",
+  caregiver_email: "",
 };
 
 export default function Profile() {
@@ -46,6 +48,8 @@ export default function Profile() {
       medical_conditions: user.medical_conditions || "",
       allergies: user.allergies || "",
       activity_level: user.activity_level || "",
+      language: user.language || "en",
+      caregiver_email: user.caregiver_email || "",
     });
     if (user.medical_conditions || user.allergies) setShowMedical(true);
   }, [user, reset]);
@@ -176,7 +180,7 @@ export default function Profile() {
             <h2 className="text-base font-semibold" style={{ color: "var(--text-2)" }}>Preferences & Access</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <FormField id="language" label="Preferred Language">
-                <select id="language" className="w-full px-3 py-2.5 input" defaultValue="en">
+                <select id="language" className="w-full px-3 py-2.5 input" {...register("language")}>
                   <option value="en">English</option>
                   <option value="es">Español</option>
                   <option value="hi">हिन्दी</option>
@@ -184,7 +188,7 @@ export default function Profile() {
                 </select>
               </FormField>
               <FormField id="caregiver" label="Caregiver Access Email" hint="Allow a family member to view your health data.">
-                <input id="caregiver" type="email" placeholder="caregiver@example.com" className="w-full px-3 py-2.5 input" />
+                <input id="caregiver" type="email" placeholder="caregiver@example.com" className="w-full px-3 py-2.5 input" {...register("caregiver_email")} />
               </FormField>
             </div>
           </section>

@@ -22,6 +22,8 @@ class User(Base):
     medical_conditions = Column(Text, nullable=True)
     allergies = Column(Text, nullable=True)
     activity_level = Column(String, nullable=True)
+    language = Column(String, nullable=True, default="en")
+    caregiver_email = Column(String, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -128,6 +130,8 @@ class HealthAssessment(Base):
     sleep_hours = Column(Float, nullable=True)
     water_intake_liters = Column(Float, nullable=True)
     stress_level = Column(String, nullable=True)
+    family_history = Column(String, nullable=True)
+    smoking_status = Column(String, nullable=True)
     notes = Column(Text, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 

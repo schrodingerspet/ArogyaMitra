@@ -27,6 +27,8 @@ class UserUpdate(BaseModel):
     medical_conditions: Optional[str] = None
     allergies: Optional[str] = None
     activity_level: Optional[str] = None
+    language: Optional[str] = None
+    caregiver_email: Optional[str] = None
 
 
 class UserResponse(BaseModel):
@@ -40,6 +42,8 @@ class UserResponse(BaseModel):
     fitness_level: Optional[str] = None
     goals: Optional[str] = None
     activity_level: Optional[str] = None
+    language: Optional[str] = None
+    caregiver_email: Optional[str] = None
     created_at: Optional[datetime] = None
 
     class Config:
@@ -210,6 +214,8 @@ class HealthAssessmentCreate(BaseModel):
     sleep_hours: Optional[float] = None
     water_intake_liters: Optional[float] = None
     stress_level: Optional[str] = None
+    family_history: Optional[str] = None
+    smoking_status: Optional[str] = None
     notes: Optional[str] = None
 
 
@@ -229,6 +235,8 @@ class HealthAssessmentResponse(BaseModel):
     sleep_hours: Optional[float] = None
     water_intake_liters: Optional[float] = None
     stress_level: Optional[str] = None
+    family_history: Optional[str] = None
+    smoking_status: Optional[str] = None
     notes: Optional[str] = None
     created_at: Optional[datetime] = None
 
