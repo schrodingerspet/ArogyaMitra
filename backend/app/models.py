@@ -209,3 +209,31 @@ class LabTestBooking(Base):
     status = Column(String, default="Scheduled")
 
     owner = relationship("User")
+
+
+# ──────────────────────────── Doctor ────────────────────────────
+class Doctor(Base):
+    __tablename__ = "doctors"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=True) # Optional link to a user account
+    name = Column(String, nullable=False)
+    specialty = Column(String, nullable=False)
+    is_verified = Column(Integer, default=0) # 0 for false, 1 for true. SQLite boolean.
+    
+    feedbacks = relationship("ConsultationFeedback", back_populates="doctor", cascade="all, delete-orphan")
+
+
+# ──────────────────────────── Consultation Feedback ────────────────────────────
+class ConsultationFeedback(Base):
+    __tablename__ = "consultation_feedbacks"
+
+    id = Column(Integer, primary_key=True, index=True)
+    doctor_id = Column(Integer, ForeignKey("doctors.id"), nullable=False)
+    patient_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    rating = Column(Float, nullable=False)
+    comment = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    doctor = relationship("Doctor", back_populates="feedbacks")
+    patient = relationship("User")

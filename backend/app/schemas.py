@@ -348,3 +348,39 @@ class LabTestBookingResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+# ═══════════════════════ Doctors & Feedback ═══════════════════════
+
+class ConsultationFeedbackCreate(BaseModel):
+    rating: float
+    comment: Optional[str] = None
+
+
+class ConsultationFeedbackResponse(BaseModel):
+    id: int
+    doctor_id: int
+    patient_id: int
+    rating: float
+    comment: Optional[str] = None
+    created_at: Optional[datetime] = None
+    
+    # We can include a bit of patient info if we want, or just let frontend fetch
+    
+    class Config:
+        from_attributes = True
+
+
+class DoctorResponse(BaseModel):
+    id: int
+    name: str
+    specialty: str
+    is_verified: bool
+    
+    # Optional fields for calculated stats
+    average_rating: Optional[float] = None
+    review_count: Optional[int] = None
+    feedbacks: List[ConsultationFeedbackResponse] = []
+
+    class Config:
+        from_attributes = True
