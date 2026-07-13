@@ -53,9 +53,9 @@ function WeeklyBars({ daily = [] }) {
           const label = d.date ? new Date(d.date).toLocaleDateString("en", { weekday: "short" }) : "N/A";
           return (
             <div key={d.date || Math.random().toString()} className="flex-1 flex flex-col items-center gap-2">
-              <div className="text-[11px]" style={{ color: "var(--text-3)" }}>{v}</div>
-              <div className="w-full rounded-xl" style={{ height: `${h}%`, minHeight: 12, background: "linear-gradient(180deg, var(--color-accent-start), var(--color-accent-end))" }} />
-              <div className="text-[11px]" style={{ color: "var(--text-4)" }}>{label}</div>
+              <div className="text-[11px] text-text-muted">{v}</div>
+              <div className="w-full rounded-xl bg-gradient-to-b from-accent-cyan to-accent-cyanDeep" style={{ height: `${h}%`, minHeight: 12 }} />
+              <div className="text-[11px] text-text-muted/70">{label}</div>
             </div>
           );
         })}
@@ -76,25 +76,25 @@ function StreakCard({ streak }) {
       className="h-full"
     >
       <div className="space-y-5">
-        <div className="w-full rounded-xl h-3" style={{ background: "var(--surface-1)", border: "1px solid var(--border-subtle)" }}>
+        <div className="w-full rounded-xl h-3 bg-white/5 border border-white/10">
           <div
-            className="h-full rounded-xl"
-            style={{ width: `${Math.max(completion * 100, 4)}%`, background: "linear-gradient(90deg, var(--color-warning), #f5d475)" }}
+            className="h-full rounded-xl bg-gradient-to-r from-warning to-yellow-300"
+            style={{ width: `${Math.max(completion * 100, 4)}%` }}
             aria-label={`Streak completion ${Math.round(completion * 100)} percent`}
           />
         </div>
         <div className="grid grid-cols-3 gap-3 text-center">
           <div>
-            <p className="text-[11px]" style={{ color: "var(--text-3)" }}>Current</p>
-            <p className="text-2xl font-bold" style={{ color: "var(--text-1)" }}>{current}</p>
+            <p className="text-[11px] text-text-muted">Current</p>
+            <p className="text-2xl font-bold text-text-primary">{current}</p>
           </div>
           <div>
-            <p className="text-[11px]" style={{ color: "var(--text-3)" }}>Longest</p>
-            <p className="text-2xl font-bold" style={{ color: "var(--text-1)" }}>{longest}</p>
+            <p className="text-[11px] text-text-muted">Longest</p>
+            <p className="text-2xl font-bold text-text-primary">{longest}</p>
           </div>
           <div>
-            <p className="text-[11px]" style={{ color: "var(--text-3)" }}>Total days</p>
-            <p className="text-2xl font-bold" style={{ color: "var(--text-1)" }}>{streak?.total_workout_days ?? 0}</p>
+            <p className="text-[11px] text-text-muted">Total days</p>
+            <p className="text-2xl font-bold text-text-primary">{streak?.total_workout_days ?? 0}</p>
           </div>
         </div>
       </div>
@@ -110,10 +110,10 @@ function ActivityFeed({ summary, streak }) {
   ];
   return (
     <Card className="p-5 h-full">
-      <h3 className="text-sm font-semibold" style={{ color: "var(--text-1)" }}>Activity feed</h3>
+      <h3 className="text-sm font-semibold text-text-primary">Activity feed</h3>
       <ul className="mt-4 space-y-3" role="list">
         {items.map((item) => (
-          <li key={item} className="text-xs p-3 rounded-xl" style={{ color: "var(--text-2)", background: "var(--surface-1)", border: "1px solid var(--border-subtle)" }}>
+          <li key={item} className="text-xs p-3 rounded-xl text-text-secondary bg-white/5 border border-white/5 shadow-sm">
             {item}
           </li>
         ))}
@@ -124,15 +124,15 @@ function ActivityFeed({ summary, streak }) {
 
 function WellnessDisclaimer() {
   return (
-    <Card className="glass-subtle p-4 mb-6 relative overflow-hidden" style={{ border: "1px solid var(--border-subtle)" }}>
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "var(--color-warning)", opacity: 0.05 }} />
+    <Card className="glass-subtle p-4 mb-6 relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none bg-warning/5" />
       <div className="relative flex gap-3 items-start">
-        <FiAlertCircle className="text-xl shrink-0 mt-0.5" style={{ color: "var(--color-warning)" }} />
+        <FiAlertCircle className="text-xl shrink-0 mt-0.5 text-warning" />
         <div>
-          <h3 className="text-sm font-semibold" style={{ color: "var(--text-1)" }}>
+          <h3 className="text-sm font-semibold text-text-primary">
             Wellness & Safety Disclaimer
           </h3>
-          <p className="text-xs mt-1 leading-relaxed" style={{ color: "var(--text-2)" }}>
+          <p className="text-xs mt-1 leading-relaxed text-text-secondary">
             AI-generated workout and nutrition guidance is for informational purposes only.
             Please consult a qualified healthcare professional before beginning any new fitness or diet program,
             especially if you have injuries, allergies, pregnancy, or pre-existing medical conditions.
@@ -170,12 +170,12 @@ export default function Dashboard() {
 
   if (isError) {
     return (
-      <div className="p-6 rounded-2xl glass-subtle" style={{ border: "1px solid var(--danger-dim, rgba(239, 68, 68, 0.2))", background: "var(--danger-dim, rgba(239, 68, 68, 0.05))" }}>
-        <div className="flex items-center gap-3 mb-4" style={{ color: "var(--danger, #ef4444)" }}>
+      <div className="p-6 rounded-2xl glass-subtle border border-error/20 bg-error/5">
+        <div className="flex items-center gap-3 mb-4 text-error">
           <FiAlertCircle size={24} />
           <h2 className="text-lg font-bold">Failed to load dashboard</h2>
         </div>
-        <p className="text-sm" style={{ color: "var(--text-2)" }}>
+        <p className="text-sm text-text-secondary">
           {error instanceof Error ? error.message : "An error occurred while fetching your dashboard data. Please try again later."}
         </p>
       </div>
@@ -187,11 +187,11 @@ export default function Dashboard() {
       <motion.div initial="hidden" animate="show" variants={container} className="space-y-6">
       <motion.div variants={item}>
         <WellnessDisclaimer />
-        <h1 style={{ color: "var(--text-1)" }}>
+        <h1 className="text-3xl font-extrabold tracking-tight mb-2 text-text-primary">
           {getGreeting()},{" "}
           <span className="text-gradient">{user?.name?.split(" ")[0] || "Athlete"}</span>
         </h1>
-        <p className="text-sm mt-2" style={{ color: "var(--text-2)" }}>
+        <p className="text-sm mt-2 text-text-secondary">
           Your wellness dashboard is organized for quick decisions and consistent progress.
         </p>
       </motion.div>
@@ -259,8 +259,8 @@ export default function Dashboard() {
 
       <motion.div variants={item} className="grid grid-cols-1 xl:grid-cols-12 gap-6">
         <Card className="p-5 xl:col-span-8">
-          <h3 className="text-sm font-semibold" style={{ color: "var(--text-1)" }}>Quick actions</h3>
-          <p className="text-xs mt-1" style={{ color: "var(--text-3)" }}>Start key flows in one click.</p>
+          <h3 className="text-sm font-semibold text-text-primary">Quick actions</h3>
+          <p className="text-xs mt-1 text-text-muted">Start key flows in one click.</p>
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
             <ActionCard icon={FiActivity} title="Workout planner" subtitle="Generate adaptive sessions" to="/workouts/generate" buttonLabel="Generate workout" tone="btn-accent-soft" />
             <ActionCard icon={GiMeal} title="Meal planner" subtitle="Build nutrition plans" to="/nutrition/generate" buttonLabel="Generate meals" tone="btn-warning-soft" />
@@ -272,11 +272,11 @@ export default function Dashboard() {
         <div className="space-y-4 xl:col-span-4">
           <ActivityFeed summary={summary} streak={streak} />
           <Card className="p-5">
-            <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: "var(--text-1)" }}>
-              <FiMessageCircle style={{ color: "var(--accent-light)" }} />
+            <h3 className="text-sm font-semibold flex items-center gap-2 text-text-primary">
+              <FiMessageCircle className="text-accent-cyanDeep" />
               AI assistant
             </h3>
-            <p className="text-xs mt-2" style={{ color: "var(--text-2)" }}>
+            <p className="text-xs mt-2 text-text-secondary">
               AROMI is docked in the bottom-right. Ask for workout tweaks, nutrition swaps, and motivation support.
             </p>
             <Link to="/dashboard" className="btn btn-primary mt-4 w-full py-2.5 text-sm rounded-xl">

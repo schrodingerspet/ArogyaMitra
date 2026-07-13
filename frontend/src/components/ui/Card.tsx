@@ -12,16 +12,15 @@ export function CardHeader({ icon: Icon, title, subtitle, action, className = ""
       <div className="flex items-start gap-3 min-w-0">
         {Icon && (
           <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-            style={{ background: "var(--surface-2)", border: "1px solid var(--border-subtle)", color: "var(--accent-light)" }}
+            className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-bg-surface border border-white/5 text-accent-cyan"
             aria-hidden="true"
           >
             <Icon size={16} />
           </div>
         )}
         <div className="min-w-0">
-          <h3 className="text-sm font-semibold truncate" style={{ color: "var(--text-1)" }}>{title}</h3>
-          {subtitle ? <p className="text-xs mt-1" style={{ color: "var(--text-3)" }}>{subtitle}</p> : null}
+          <h3 className="text-sm font-semibold truncate text-text-primary">{title}</h3>
+          {subtitle ? <p className="text-xs mt-1 text-text-muted">{subtitle}</p> : null}
         </div>
       </div>
       {action ? <div className="shrink-0">{action}</div> : null}
@@ -35,7 +34,7 @@ export function CardBody({ children, className = "" }) {
 
 export function CardFooter({ children, className = "" }) {
   return (
-    <footer className={`pt-3 mt-3 ${className}`} style={{ borderTop: "1px solid var(--border-subtle)" }}>
+    <footer className={`pt-3 mt-3 border-t border-white/5 ${className}`}>
       {children}
     </footer>
   );
